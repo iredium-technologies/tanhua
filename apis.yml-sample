@@ -1,0 +1,7 @@
+apis:
+  - name: example
+    attributes:
+      host: localhost:3000
+      uris:
+        - /example
+      https_only: false

@@ -1,5 +1,5 @@
-# Butterfly
+# API Gateway
 
 ## Description
 
-Express API Framework
+Nothing special, just an API Gateway
