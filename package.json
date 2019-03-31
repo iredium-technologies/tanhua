@@ -1,0 +1,102 @@
+{
+  "name": "@iredium/butterfly",
+  "version": "0.0.1",
+  "description": "Butterfly Project Template",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iredium-technologies/butterfly-template.git"
+  },
+  "author": "Wahyu Nugraha <nugraha.c.wahyu@gmail.com>",
+  "license": "MIT",
+  "main": "build/main.js",
+  "scripts": {
+    "dev": "backpack dev --inspect=0.0.0.0:9229 --nolazy",
+    "build": "backpack build",
+    "start": "node build/example.js",
+    "precommit": "npm run lint",
+    "test": "NODE_ENV=test jest",
+    "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore ."
+  },
+  "keywords": [
+    "butterfly",
+    "butterfly-template",
+    "iredium",
+    "express",
+    "babel",
+    "boilerplate",
+    "scaffold",
+    "es6",
+    "es2015",
+    "es2016",
+    "es2017",
+    "jest",
+    "eslint"
+  ],
+  "dependencies": {
+    "@iredium/butterfly": "^0.0.18"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "@types/express": "^4.11.1",
+    "@types/jest": "^24.0.11",
+    "awesome-typescript-loader": "^3.0.0-beta.18",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.6",
+    "babel-jest": "^22.4.3",
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-stage-0": "^6.16.0",
+    "backpack-core": "^0.4.3",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-html": "^3.1.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "eslint-plugin-typescript": "^0.12.0",
+    "jest": "^21.2.1",
+    "supertest": "^3.0.0",
+    "ts-loader": "^3.5.0",
+    "tslint-config-airbnb": "^5.8.0",
+    "typescript": "^2.7.1",
+    "typescript-eslint-parser": "^14.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true,
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "^.+\\.(ts|tsx)$": "<rootDir>/ts_jest.js"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "build"
+    ],
+    "moduleNameMapper": {
+      "^~/src/(.*)": "<rootDir>/src/$1",
+      "^~/example/(.*)": "<rootDir>/example/$1"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$"
+  },
+  "bugs": {
+    "url": "https://github.com/iredium-technologies/iredium/issues"
+  },
+  "homepage": "https://github.com/iredium-technologies/iredium#readme",
+  "directories": {
+    "test": "test"
+  }
+}
