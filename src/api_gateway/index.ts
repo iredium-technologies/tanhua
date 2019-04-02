@@ -1,14 +1,13 @@
 import { ApiGatewayConfig } from '~/src/api_gateway/types/api_gateway_config'
 import express from 'express'
 import { ApiConfig } from '~/src/api_gateway/types/api_config'
-import { middlewares } from '~/src/api_gateway/middlewares'
 import proxy = require('express-http-proxy')
 
 export class ApiGateway {
   protected app: express.Application
   protected apis: ApiConfig
   protected proxy
-  protected middlewares
+  protected middlewares = []
   protected hooks: object
   protected modules: Array<string>
 
@@ -17,7 +16,6 @@ export class ApiGateway {
     this.proxy = proxy
     this.apis = config.apis
     this.modules = config.modules || []
-    this.middlewares = middlewares
     this.hooks = {
       'tanhua:registerApiMiddlewares': [],
       'tanhua:proxy:proxyErrorHandler': [],
@@ -35,7 +33,7 @@ export class ApiGateway {
   }
 
   public async init (): Promise<void> {
-    // await this.loadModules()
+    await this.loadModules()
     this.registerMiddlewares()
   }
 
