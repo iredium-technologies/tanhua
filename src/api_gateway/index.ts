@@ -52,10 +52,9 @@ export class ApiGateway {
       const middlewares = this.middlewares
       const config = api.config
 
+      this.executeHookHandlers('tanhua:registerApiMiddlewares', { middlewares, api })
       config['proxyErrorHandler'] = this.errorHandlerFactory()
       middlewares.push(this.proxy(api.host, config))
-
-      this.executeHookHandlers('tanhua:registerApiMiddlewares', { middlewares, api })
 
       for (let uri of api.uris) {
         this.app.use(uri, ...middlewares)
