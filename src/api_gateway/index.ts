@@ -1,5 +1,6 @@
+import { ApiGatewayConfig } from '~/src/api_gateway/types/api_gateway_config'
 import express from 'express'
-import { ApiConfig } from '~/src/types/api_config'
+import { ApiConfig } from '~/src/api_gateway/types/api_config'
 import { middlewares } from '~/src/api_gateway/middlewares'
 import proxy = require('express-http-proxy')
 
@@ -9,11 +10,13 @@ export class ApiGateway {
   protected proxy
   protected middlewares
   protected hooks: object
+  protected modules: Array<string>
 
-  public constructor (app: express.Application, apis: ApiConfig) {
+  public constructor (app: express.Application, config: ApiGatewayConfig) {
     this.app = app
     this.proxy = proxy
-    this.apis = apis
+    this.apis = config.apis
+    this.modules = config.modules || []
     this.middlewares = middlewares
     this.hooks = {
       'tanhua:registerApiMiddlewares': [],
@@ -27,14 +30,32 @@ export class ApiGateway {
     }
   }
 
-  public registerMiddlewares (): void {
+  public async init (): Promise<void> {
+    await this.loadModules()
+    this.registerMiddlewares()
+  }
+
+  protected async loadModules (): Promise<void> {
+    for (let modulePath of this.modules) {
+      modulePath = modulePath.replace(`~/${__dirname}`, '.')
+      const m = await import(`${modulePath}`)
+      m.default({
+        hook: (name, handler): void => {
+          this.hook(name, handler)
+        }
+      })
+    }
+  }
+
+  protected registerMiddlewares (): void {
     for (let api of this.apis) {
       const middlewares = this.middlewares
       const config = api.config
 
       config['proxyErrorHandler'] = this.errorHandlerFactory()
-      this.executeHookHandlers('tanhua:registerApiMiddlewares', this.app, api)
       middlewares.push(this.proxy(api.host, config))
+
+      this.executeHookHandlers('tanhua:registerApiMiddlewares', { middlewares, api })
 
       for (let uri of api.uris) {
         this.app.use(uri, ...middlewares)
