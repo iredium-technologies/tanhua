@@ -5,9 +5,9 @@ import apiGatewayConfig from '~/src/api_gateway/config'
 
 const butterfly = new Butterfly(config)
 
-butterfly.hook('butterfly:registerMiddlewares', (app): void => {
-  const apiGateway = new ApiGateway(app, apiGatewayConfig)
-  apiGateway.init()
-})
+let apiGateway = new ApiGateway(butterfly.app, apiGatewayConfig)
 
-butterfly.boot()
+apiGateway.init()
+  .then((): void => {
+    butterfly.boot()
+  })
