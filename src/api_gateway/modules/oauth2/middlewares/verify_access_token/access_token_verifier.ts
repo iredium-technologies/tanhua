@@ -20,7 +20,7 @@ export class AccessTokenVerifier {
     }
   }
 
-  public validateToken (): void {
+  public async verifyToken (): Promise<void> {
     this.validateAuthorization()
     this.validateTokenType()
     this.checkTokenValidity()
