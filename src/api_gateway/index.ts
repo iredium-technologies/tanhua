@@ -20,7 +20,10 @@ export class ApiGateway {
     this.middlewares = middlewares
     this.hooks = {
       'tanhua:registerApiMiddlewares': [],
-      'tanhua:onProxyError': []
+      'tanhua:proxy:proxyErrorHandler': [],
+      'tanhua:proxy:userResHeaderDecorator': [],
+      'tanhua:proxy:proxyReqOptDecorator': [],
+      'tanhua:proxy:proxyReqBodyDecorator': []
     }
   }
 
@@ -53,7 +56,7 @@ export class ApiGateway {
       const config = api.config
 
       this.executeHookHandlers('tanhua:registerApiMiddlewares', { middlewares, api })
-      config['proxyErrorHandler'] = this.errorHandlerFactory()
+      this.registerProxyHandlers(config)
       middlewares.push(this.proxy(api.host, config))
 
       for (let uri of api.uris) {
@@ -62,11 +65,34 @@ export class ApiGateway {
     }
   }
 
-  protected errorHandlerFactory (): Function {
-    return function proxyErrorHandler (err, res, next): void {
-      // TODO: implement error handler
-      this.executeHookHandlers('tanhua:onProxyError', err, res)
-      next(err)
+  protected registerProxyHandlers (config): void {
+    const handlers = {
+      proxyErrorHandler (err, res, next): void {
+        // TODO: implement error handler
+        this.executeHookHandlers('tanhua:proxy:proxyErrorHandler', err, res)
+        next(err)
+      },
+      userResHeaderDecorator (headers, userReq, userRes, proxyReq, proxyRes): object {
+        // recieves an Object of headers, returns an Object of headers.
+        this.executeHookHandlers('tanhua:proxy:userResHeaderDecorator', headers, userReq, userRes, proxyReq, proxyRes)
+        return headers
+      },
+      async userResDecorator (proxyRes, proxyResData, userReq, userRes): Promise<string> {
+        this.executeHookHandlers('tanhua:proxy:userResDecorator', proxyRes, proxyResData, userReq, userRes)
+        return proxyResData
+      },
+      async proxyReqOptDecorator (proxyReqOpts, srcReq): Promise<object> {
+        await this.executeHookHandlers('tanhua:proxy:proxyReqOptDecorator', proxyReqOpts, srcReq)
+        return proxyReqOpts
+      },
+      async proxyReqBodyDecorator (bodyContent, srcReq): Promise<string> {
+        await this.executeHookHandlers('tanhua:proxy:proxyReqBodyDecorator', bodyContent, srcReq)
+        return bodyContent
+      }
+    }
+
+    for (let key in handlers) {
+      config[key] = handlers[key]
     }
   }
 
