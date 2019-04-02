@@ -2,6 +2,6 @@ import { verifyAccessToken } from '~/src/api_gateway/modules/oauth2/middlewares/
 
 export default function oauth2 ({ hook }): void {
   hook('tanhua:registerApiMiddlewares', function ({ middlewares, api }): void {
-    middlewares.unshift(verifyAccessToken)
+    middlewares.push(verifyAccessToken)
   })
 }
