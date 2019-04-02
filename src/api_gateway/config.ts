@@ -1,8 +1,9 @@
-import { apis } from '~/src/api_gateway/config/apis'
+import { UserService } from '@iredium/butterfly/lib/services'
+import { routes } from '~/src/api_gateway/config/routes'
+import { databases } from '~/src/api_gateway/config/databases'
 
 export default {
-  apis,
-  modules: [
-    '~/src/api_gateway/modules/oauth2'
-  ]
+  userServiceClass: UserService,
+  routes,
+  databases
 }

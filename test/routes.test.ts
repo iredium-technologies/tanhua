@@ -1,5 +1,5 @@
 import Butterfly from '@iredium/butterfly'
-import config from '~/src/config'
+import config from '~/src/api_gateway/config'
 import request = require('supertest')
 
 const butterfly = new Butterfly(config)
