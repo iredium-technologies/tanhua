@@ -1,6 +1,6 @@
 import { UnauthorizedError } from '@iredium/butterfly/lib/errors'
 
-export class AccessTokenVerifier {
+export abstract class BaseVerifier {
   protected authorization: string = null
   protected tokenType: string = null
   protected token: string = null
@@ -23,7 +23,7 @@ export class AccessTokenVerifier {
   public async verifyToken (): Promise<void> {
     this.validateAuthorization()
     this.validateTokenType()
-    this.checkTokenValidity()
+    await this.checkTokenValidity()
   }
 
   protected validateAuthorization (): void {
@@ -38,7 +38,5 @@ export class AccessTokenVerifier {
     }
   }
 
-  protected checkTokenValidity (): void {
-    // TODO: validate token
-  }
+  protected abstract async checkTokenValidity (): Promise<void>;
 }
