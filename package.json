@@ -34,7 +34,9 @@
   ],
   "dependencies": {
     "@iredium/butterfly": "^0.0.20",
+    "ejs": "^2.6.1",
     "express-http-proxy": "^1.5.1",
+    "vhost": "^3.0.2",
     "yaml": "^1.4.0"
   },
   "devDependencies": {
@@ -50,6 +52,7 @@
     "babel-preset-es2017": "^6.24.1",
     "babel-preset-stage-0": "^6.16.0",
     "backpack-core": "^0.4.3",
+    "ejs-loader": "^0.3.3",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-loader": "^2.0.0",

@@ -31,6 +31,15 @@ const config = {
         test: /\.ts$/,
         exclude: /node_modules|build/,
         loader: 'ts-loader'
+      },
+      {
+        test: /\.ejs$/,
+        loader: 'ejs-loader',
+        query: {
+          variable: 'data',
+          interpolate: '\\{\\{(.+?)\\}\\}',
+          evaluate: '\\[\\[(.+?)\\]\\]'
+        }
       }
     ]
   }
