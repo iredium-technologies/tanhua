@@ -27,6 +27,7 @@ module.exports = {
       ],
       "rules": {
         "no-undef": "allow",
+        "camelcase": "never",
         "typescript/adjacent-overload-signatures": "error",
         "typescript/class-name-casing": "error",
         "typescript/explicit-function-return-type": "error",

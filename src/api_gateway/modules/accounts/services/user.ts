@@ -1,11 +1,6 @@
-import { UserType } from '../models/user'
+import { User, UserType } from '~/src/api_gateway/modules/accounts/models/user'
 import { BaseService } from '@iredium/butterfly/lib/services'
-import mongoose = require('mongoose')
 
 export class UserService extends BaseService {
-  public Model: UserType
-
-  public constructor () {
-    super(mongoose.model('User'))
-  }
+  public Model: UserType = User
 }

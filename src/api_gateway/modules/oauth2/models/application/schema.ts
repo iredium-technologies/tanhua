@@ -1,9 +1,9 @@
 import { BaseSchema } from '@iredium/butterfly/lib/models'
-import mongoose = require('mongoose')
 
 export var Schema = new BaseSchema({
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, protect: true, autopopulate: { select: 'id username first_name last_name default_address email' } },
-  title: { type: String, required: true },
-  description: { type: String, required: false },
-  complete: { type: Boolean, default: false }
+  name: { type: String, required: true },
+  redirect_uris: { type: String, required: true },
+  client_id: { unique: true, type: String, required: true },
+  client_secret: { type: String, required: true },
+  active: { type: Boolean, default: true }
 })
