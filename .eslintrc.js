@@ -37,7 +37,6 @@ module.exports = {
         "typescript/member-ordering": "error",
         "typescript/no-angle-bracket-type-assertion": "error",
         "typescript/no-array-constructor": "error",
-        "typescript/no-empty-interface": "error",
         "typescript/no-explicit-any": "error",
         "typescript/no-namespace": "error",
         "typescript/no-non-null-assertion": "error",

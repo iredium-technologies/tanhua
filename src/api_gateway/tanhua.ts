@@ -9,7 +9,7 @@ export class Tanhua {
 
   public constructor () {
     this.butterfly = new Butterfly(config)
-    this.apiGateway = new ApiGateway(this.butterfly.app, apiGatewayConfig)
+    this.apiGateway = new ApiGateway(this.butterfly, apiGatewayConfig)
   }
 
   public boot (): void {

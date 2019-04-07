@@ -1,18 +1,22 @@
+import Butterfly from '@iredium/butterfly'
 import { ApiGatewayConfig } from '~/src/api_gateway/types/api_gateway_config'
 import express from 'express'
 import { ApiConfig } from '~/src/api_gateway/types/api_config'
+import { RequestId } from '@iredium/butterfly/lib/middlewares'
 import proxy = require('express-http-proxy')
 
 export class ApiGateway {
   protected app: express.Application
+  protected butterfly: Butterfly
   protected apis: ApiConfig
   protected proxy
-  protected middlewares = []
+  protected middlewares = [RequestId.default()]
   protected hooks: object
   protected modules: Array<string>
 
-  public constructor (app: express.Application, config: ApiGatewayConfig) {
-    this.app = app
+  public constructor (butterfly: Butterfly, config: ApiGatewayConfig) {
+    this.app = butterfly.app
+    this.butterfly = butterfly
     this.proxy = proxy
     this.apis = config.apis
     this.modules = config.modules || []
@@ -30,6 +34,7 @@ export class ApiGateway {
     if (this.hooks[name]) {
       this.hooks[name].push(handler)
     }
+    this.butterfly.hook(name, handler)
   }
 
   public async init (): Promise<void> {
@@ -83,6 +88,7 @@ export class ApiGateway {
       },
       proxyReqOptDecorator: async (proxyReqOpts, srcReq): Promise<object> => {
         await this.executeHookHandlers('tanhua:proxy:proxyReqOptDecorator', [proxyReqOpts, srcReq])
+        proxyReqOpts.headers['x-request-id'] = srcReq['request_id']
         return proxyReqOpts
       },
       proxyReqBodyDecorator: async (bodyContent, srcReq): Promise<string> => {

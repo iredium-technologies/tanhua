@@ -865,10 +865,10 @@
     through2 "^2.0.0"
     xdg-basedir "^3.0.0"
 
-"@iredium/butterfly@^0.0.20":
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.0.20.tgz#426da422eeb3384c40d46fd43cb21f001a01df07"
-  integrity sha512-/Cr4vIc3wVVUVfmGCp8B2N/awBI10kM5T1lWtxluEMAm+sWVRFkmtYdIuyNtKcDtQZOHpTJWjsSY9Q1IelGHYQ==
+"@iredium/butterfly@^0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.0.22.tgz#c8c63887ea714cb1745415dc956b3e9230530e4b"
+  integrity sha512-tTm8uAVgR7TLz6TKQTwnWZ7QWmFYyH0mKRRsYrOU0hvw8220ZOJded1efdtPxM3kQaiEnryPes4o1+T4+uU7gg==
   dependencies:
     "@types/email-templates" "^3.5.0"
     "@types/mongoose" "^5.3.23"

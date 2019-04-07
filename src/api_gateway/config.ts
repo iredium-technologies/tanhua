@@ -1,4 +1,4 @@
-import { UserService } from '@iredium/butterfly/lib/services'
+import { UserService } from '~/src/api_gateway/modules/accounts/services/user'
 import { routes } from '~/src/api_gateway/config/routes'
 import { databases } from '~/src/api_gateway/config/databases'
 
