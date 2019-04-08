@@ -7,7 +7,7 @@ import path = require('path')
 export default function dashboard ({ app, hook }): void {
   const router = express.Router()
 
-  app.set('view engine', 'ejs')
+  app.set('view engine', 'pug')
   app.set('views', path.join(__dirname, '/views'))
 
   router.get('/', index)

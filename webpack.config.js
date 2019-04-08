@@ -33,13 +33,8 @@ const config = {
         loader: 'ts-loader'
       },
       {
-        test: /\.ejs$/,
-        loader: 'ejs-loader',
-        query: {
-          variable: 'data',
-          interpolate: '\\{\\{(.+?)\\}\\}',
-          evaluate: '\\[\\[(.+?)\\]\\]'
-        }
+        test: /\.pug$/,
+        use: ['pug-loader']
       }
     ]
   }
