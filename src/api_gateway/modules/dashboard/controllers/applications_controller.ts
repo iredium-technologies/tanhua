@@ -11,9 +11,7 @@ export class ApplicationsController extends BaseController {
   public async index (req): Promise<BaseResponse> {
     this.authorize('index')
 
-    const service = new ApplicationService()
-
-    const pagination = await service.paginate({
+    const pagination = await this.service.paginate({
       offset: req.query.offset,
       limit: req.query.limit,
       query: Object.assign(req.query, { deleted_at: null })
