@@ -865,10 +865,10 @@
     through2 "^2.0.0"
     xdg-basedir "^3.0.0"
 
-"@iredium/butterfly@^0.0.28":
-  version "0.0.28"
-  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.0.28.tgz#60470121c246ff9b14418ed3af0e5bbeedf94e7a"
-  integrity sha512-aP26rVec0EbgUqtFR99htXfAllu3ZXUkFaVjUSRLSqxMBktaUm4UxVrYwTElZ1tpThuTKE31ITWzkBGlqpuXyg==
+"@iredium/butterfly@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.0.33.tgz#5a1ac988d756314e016d1ece685fa91eb1f943e3"
+  integrity sha512-qZaIO5/SGAj05T/3XvvBjfTH7RUAxTUIlHH3O06K5EKQKTYDPZUPVyBxPQvM75oNRLVag3VYEKdDCy6XrTbJtg==
   dependencies:
     "@types/email-templates" "^3.5.0"
     "@types/mongoose" "^5.3.23"
@@ -894,7 +894,6 @@
     multer-s3 "^2.7.0"
     node-uuid "^1.4.8"
     pluralize "^7.0.0"
-    pug "^2.0.0-beta11"
     repl-promised "^0.1.0"
     request "^2.82.0"
     rimraf "^2.6.2"
@@ -8094,7 +8093,7 @@ pug-walk@^1.0.0, pug-walk@^1.1.7:
   resolved "https://registry.yarnpkg.com/pug-walk/-/pug-walk-1.1.7.tgz#c00d5c5128bac5806bec15d2b7e7cdabe42531f3"
   integrity sha1-wA1cUSi6xYBr7BXSt+fNq+QlMfM=
 
-pug@^2.0.0-beta11, pug@^2.0.0-beta3, pug@^2.0.3:
+pug@^2.0.0-beta3, pug@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/pug/-/pug-2.0.3.tgz#71cba82537c95a5eab7ed04696e4221f53aa878e"
   integrity sha1-ccuoJTfJWl6rftBGluQiH1Oqh44=

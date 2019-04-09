@@ -3,3 +3,26 @@ extends ../../../layouts/default.pug
 block content
   .jumbotron
     h1 Applications
+
+  table
+    thead
+      tr
+        th No
+        th Name
+        th Client ID
+        th Client Secret
+        th Redirect URI
+        th Action
+    tbody
+      each app in data
+        tr
+          td= data.indexOf(app) + 1 + meta.offset
+          td= app.name
+          td= app.client_id
+          td= app.client_secret
+          td= app.redirect_uris
+          td
+            div
+              button edit
+            div
+              button delete

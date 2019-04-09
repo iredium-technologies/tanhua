@@ -1,17 +1,10 @@
-import { index } from './handlers/index'
-import { applications } from './handlers/applications'
-import vhost = require('vhost')
-import express = require('express')
+import { dashboardRoutes } from './routes'
 import path = require('path')
 
-export default function dashboard ({ app, hook }): void {
-  const router = express.Router()
+export default function dashboard ({ hook }): void {
+  hook('butterfly:registerViewPaths', (paths: string[]): void => {
+    paths.push(path.join(__dirname, '/views'))
+  })
 
-  app.set('view engine', 'pug')
-  app.set('views', path.join(__dirname, '/views'))
-
-  router.get('/', index)
-  router.get('/oauth/applications', applications)
-
-  app.use(vhost(process.env.ACCOUNTS_HOST, router))
+  hook('butterfly:drawRoutes', dashboardRoutes)
 }
