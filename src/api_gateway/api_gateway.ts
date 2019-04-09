@@ -47,7 +47,6 @@ export class ApiGateway {
       modulePath = modulePath.replace(`~/${__dirname}`, '.')
       const m = await import(`${modulePath}`)
       m.default({
-        app: this.app,
         hook: (name, handler): void => {
           this.hook(name, handler)
         }
