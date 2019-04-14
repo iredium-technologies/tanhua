@@ -1,6 +1,7 @@
 module.exports = {
   'testEnvironment': 'node',
   'verbose': true,
+  'forceExit': true,
   'testMatch': [ '**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)' ],
   'transform': {
     '^.+\\.js$': 'babel-jest',
