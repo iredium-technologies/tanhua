@@ -1,8 +1,9 @@
+import { Class } from '@iredium/butterfly/lib/types/class'
+import { BaseMiddleware, RequestId } from '@iredium/butterfly/lib/middlewares'
 import Butterfly from '@iredium/butterfly'
 import { ApiGatewayConfig } from '~/src/api_gateway/types/api_gateway_config'
 import express from 'express'
 import { ApiConfig } from '~/src/api_gateway/types/api_config'
-import { RequestId } from '@iredium/butterfly/lib/middlewares'
 import proxy = require('express-http-proxy')
 
 export class ApiGateway {
@@ -10,15 +11,17 @@ export class ApiGateway {
   protected butterfly: Butterfly
   protected apis: ApiConfig
   protected proxy
-  protected middlewares = [RequestId.default()]
+  protected middlewares: BaseMiddleware[] = []
   protected hooks: object
   protected modules: Array<string>
+  protected userServiceClass: Class;
 
   public constructor (butterfly: Butterfly, config: ApiGatewayConfig) {
     this.app = butterfly.app
     this.butterfly = butterfly
     this.proxy = proxy
     this.apis = config.apis
+    this.userServiceClass = config.userServiceClass
     this.modules = config.modules || []
     this.hooks = {
       'tanhua:registerApiMiddlewares': [],
@@ -56,11 +59,19 @@ export class ApiGateway {
 
   protected registerMiddlewares (): void {
     for (let api of this.apis) {
-      const middlewares = this.middlewares
+      const middlewares = []
       const config = api.config
 
-      this.executeHookHandlers('tanhua:registerApiMiddlewares', { middlewares, api })
+      this.middlewares.push(new RequestId())
+
+      this.executeHookHandlers('tanhua:registerApiMiddlewares', { middlewares: this.middlewares })
       this.registerProxyHandlers(config)
+
+      for (let middleware of this.middlewares) {
+        middleware.setUserServiceClass(this.userServiceClass)
+        middlewares.push(middleware.handleMiddelware())
+      }
+
       middlewares.push(this.proxy(api.host, config))
 
       for (let uri of api.uris) {
@@ -71,27 +82,28 @@ export class ApiGateway {
 
   protected registerProxyHandlers (config): void {
     const handlers = {
-      proxyErrorHandler: (err, res, next): void => {
+      proxyErrorHandler: async (err, res, next): Promise<void> => {
         // TODO: implement error handler
-        this.executeHookHandlers('tanhua:proxy:proxyErrorHandler', [err, res])
+        await this.executeHookHandlers('tanhua:proxy:proxyErrorHandler', err, res)
         next(err)
       },
       userResHeaderDecorator: (headers, userReq, userRes, proxyReq, proxyRes): object => {
         // recieves an Object of headers, returns an Object of headers.
-        this.executeHookHandlers('tanhua:proxy:userResHeaderDecorator', [headers, userReq, userRes, proxyReq, proxyRes])
+        this.executeHookHandlersSynchronous('tanhua:proxy:userResHeaderDecorator', headers, userReq, userRes, proxyReq, proxyRes)
+        headers['x-request-id'] = userReq['request_id']
         return headers
       },
       userResDecorator: async (proxyRes, proxyResData, userReq, userRes): Promise<string> => {
-        await this.executeHookHandlers('tanhua:proxy:userResDecorator', [proxyRes, proxyResData, userReq, userRes])
+        await this.executeHookHandlers('tanhua:proxy:userResDecorator', proxyRes, proxyResData, userReq, userRes)
         return proxyResData
       },
       proxyReqOptDecorator: async (proxyReqOpts, srcReq): Promise<object> => {
-        await this.executeHookHandlers('tanhua:proxy:proxyReqOptDecorator', [proxyReqOpts, srcReq])
+        await this.executeHookHandlers('tanhua:proxy:proxyReqOptDecorator', proxyReqOpts, srcReq)
         proxyReqOpts.headers['x-request-id'] = srcReq['request_id']
         return proxyReqOpts
       },
       proxyReqBodyDecorator: async (bodyContent, srcReq): Promise<string> => {
-        await this.executeHookHandlers('tanhua:proxy:proxyReqBodyDecorator', [bodyContent, srcReq])
+        await this.executeHookHandlers('tanhua:proxy:proxyReqBodyDecorator', bodyContent, srcReq)
         return bodyContent
       }
     }
@@ -101,10 +113,17 @@ export class ApiGateway {
     }
   }
 
-  protected executeHookHandlers (name, ...args): void {
+  protected executeHookHandlersSynchronous (name, ...args): void {
     const handlers = this.hooks[name]
     for (let handler of handlers) {
       handler.call(this, ...args)
+    }
+  }
+
+  protected async executeHookHandlers (name, ...args): Promise<void> {
+    const handlers = this.hooks[name]
+    for (let handler of handlers) {
+      await handler.call(this, ...args)
     }
   }
 }

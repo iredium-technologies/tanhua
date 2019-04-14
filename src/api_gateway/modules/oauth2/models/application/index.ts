@@ -1,4 +1,4 @@
-import { UserInterface as Interface } from './interface'
+import { ApplicationInterface as Interface } from './interface'
 import { Schema } from './schema'
 import mongoose = require('mongoose')
 

@@ -4,8 +4,8 @@ import config from '~/src/api_gateway/config'
 import apiGatewayConfig from '~/src/api_gateway/api_gateway_config'
 
 export class Tanhua {
-  protected butterfly
-  protected apiGateway
+  protected butterfly: Butterfly
+  protected apiGateway: ApiGateway
 
   public constructor () {
     this.butterfly = new Butterfly(config)
