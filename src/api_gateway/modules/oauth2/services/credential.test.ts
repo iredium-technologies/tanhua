@@ -28,6 +28,7 @@ describe('Credential Fields Test', async (): Promise<void> => {
       redirect_uris: 'http://localhost'
     })
     credential = await credentials.create({
+      grant_type: 'client_credentials',
       client_id: clientId,
       client_secret: clientSecret,
       scope: 'public'
@@ -54,12 +55,14 @@ describe('Credential Fields Test', async (): Promise<void> => {
 describe('Issue Credential Test', async (): Promise<void> => {
   it('should issues the same credential if old credential still valid', async (): Promise<void> => {
     const credential = await credentials.create({
+      grant_type: 'client_credentials',
       client_id: clientId,
       client_secret: clientSecret,
       scope: 'public'
     })
 
     const credential2 = await credentials.create({
+      grant_type: 'client_credentials',
       client_id: clientId,
       client_secret: clientSecret,
       scope: 'public'
@@ -70,12 +73,14 @@ describe('Issue Credential Test', async (): Promise<void> => {
 
   it('should issues different credential for each clientId', async (): Promise<void> => {
     const credential = await credentials.create({
+      grant_type: 'client_credentials',
       client_id: clientId,
       client_secret: clientSecret,
       scope: 'public'
     })
 
     const credential2 = await credentials.create({
+      grant_type: 'client_credentials',
       client_id: clientId2,
       client_secret: clientSecret2,
       scope: 'public'
@@ -85,6 +90,7 @@ describe('Issue Credential Test', async (): Promise<void> => {
 
   it('should expires in 120 minutes', async (): Promise<void> => {
     const credential = await credentials.create({
+      grant_type: 'client_credentials',
       client_id: clientId,
       client_secret: clientSecret,
       scope: 'public'
