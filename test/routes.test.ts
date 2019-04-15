@@ -1,14 +1,14 @@
-import Butterfly from '@iredium/butterfly'
-import config from '~/src/config'
+import { initTest } from '~/test/helpers/init-test'
 import request = require('supertest')
 
-const butterfly = new Butterfly(config)
-butterfly.boot()
+const butterfly = initTest()
 
 describe('Routes Test', (): void => {
-  it('should respond ok for GET /users', async (): Promise<void> => {
+  it('should respond 200 for GET /users', (): void => {
     request(butterfly.app).get('/users').expect(200)
   })
-})
 
-butterfly.close()
+  it('should respond 404 for GET /no-found-route', (): void => {
+    request(butterfly.app).get('/no-found-route').expect(404)
+  })
+})

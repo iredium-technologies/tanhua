@@ -27,6 +27,7 @@ module.exports = {
       ],
       "rules": {
         "no-undef": "allow",
+        "camelcase": "never",
         "typescript/adjacent-overload-signatures": "error",
         "typescript/class-name-casing": "error",
         "typescript/explicit-function-return-type": "error",
@@ -37,7 +38,6 @@ module.exports = {
         "typescript/member-ordering": "error",
         "typescript/no-angle-bracket-type-assertion": "error",
         "typescript/no-array-constructor": "error",
-        "typescript/no-empty-interface": "error",
         "typescript/no-explicit-any": "error",
         "typescript/no-namespace": "error",
         "typescript/no-non-null-assertion": "error",

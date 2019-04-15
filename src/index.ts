@@ -1,13 +1,5 @@
-import { ApiGateway } from '~/src/api_gateway'
-import Butterfly from '@iredium/butterfly'
-import config from '~/src/config'
-import { apis } from '~/src/config/apis'
+import { Tanhua } from './api_gateway/tanhua'
 
-const butterfly = new Butterfly(config)
+const tanhua = new Tanhua()
 
-butterfly.hook('butterfly:registerMiddlewares', (app): void => {
-  const apiGateway = new ApiGateway(app, apis)
-  apiGateway.registerMiddlewares()
-})
-
-butterfly.boot()
+tanhua.boot()

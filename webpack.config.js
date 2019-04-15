@@ -31,6 +31,10 @@ const config = {
         test: /\.ts$/,
         exclude: /node_modules|build/,
         loader: 'ts-loader'
+      },
+      {
+        test: /\.pug$/,
+        use: ['pug-loader']
       }
     ]
   }
