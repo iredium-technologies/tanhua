@@ -83,6 +83,7 @@ export class CredentialService extends BaseService {
   }
 
   protected async createRefreshableToken (): Promise<CredentialInterface> {
+    if (!this.authenticatedUserId) throw new BaseError('authenticated_user_id is required')
     const token = this.generateToken()
     const refreshToken = this.generateRefreshToken()
     const expiresAt = this.getDateHoursFromNow(this.tokenExpiresIn)
@@ -109,6 +110,7 @@ export class CredentialService extends BaseService {
     oldCredential.active = false
     await oldCredential.save()
     if (oldCredential.user_id) {
+      this.authenticatedUserId = oldCredential.user_id
       return this.createRefreshableToken()
     }
     return this.createToken()
