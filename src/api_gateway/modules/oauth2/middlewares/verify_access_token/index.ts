@@ -6,7 +6,8 @@ export class VerifyAccessToken extends BaseMiddleware {
   public generate (): RequestHandler {
     return async function verifyAccessToken (req, res, next): Promise<void> {
       const verifier = new DatabaseAccessTokenVerifier(req.headers['authorization'])
-      await verifier.verifyToken()
+      const credential = await verifier.verifyToken()
+      req['authenticatedUserId'] = credential.user_id
       next()
     }
   }

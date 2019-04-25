@@ -1,3 +1,4 @@
+import { CredentialInterface } from './../../../models/credential/interface'
 import { UnauthorizedError } from '@iredium/butterfly/lib/errors'
 
 export abstract class BaseVerifier {
@@ -20,10 +21,10 @@ export abstract class BaseVerifier {
     }
   }
 
-  public async verifyToken (): Promise<void> {
+  public async verifyToken (): Promise<CredentialInterface> {
     this.validateAuthorization()
     this.validateTokenType()
-    await this.checkTokenValidity()
+    return this.checkTokenValidity()
   }
 
   protected validateAuthorization (): void {
@@ -38,5 +39,5 @@ export abstract class BaseVerifier {
     }
   }
 
-  protected abstract async checkTokenValidity (): Promise<void>;
+  protected abstract async checkTokenValidity (): Promise<CredentialInterface>;
 }
