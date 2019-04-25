@@ -98,6 +98,7 @@ describe('Issue Credential Test', async (): Promise<void> => {
       grant_type: 'password',
       client_id: clientId,
       client_secret: clientSecret,
+      authenticated_user_id: 'user_123',
       scope: 'public'
     })
     expect(credential.refresh_token).toBeDefined()
@@ -108,8 +109,8 @@ describe('Issue Credential Test', async (): Promise<void> => {
       grant_type: 'password',
       client_id: clientId,
       client_secret: clientSecret,
-      scope: 'public',
-      authenticated_user_id: 'kepi'
+      authenticated_user_id: 'user_123',
+      scope: 'public'
     })
     const refreshedCredential = await credentials.create({
       grant_type: 'refresh_token',
@@ -121,20 +122,32 @@ describe('Issue Credential Test', async (): Promise<void> => {
     expect(refreshedCredential.refresh_token).toBeDefined()
   })
 
-  it('should issues non-refreshable credential for refresh grant with no authenticated_user_id', async (): Promise<void> => {
+  it('should able to refreshes token only once', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'password',
       client_id: clientId,
       client_secret: clientSecret,
+      authenticated_user_id: 'user_123',
       scope: 'public'
     })
-    const refreshedCredential = await credentials.create({
+    await credentials.create({
       grant_type: 'refresh_token',
       refresh_token: credential.refresh_token,
       client_id: clientId,
       client_secret: clientSecret,
       scope: 'public'
     })
-    expect(refreshedCredential.refresh_token).toBeFalsy()
+    try {
+      await credentials.create({
+        grant_type: 'refresh_token',
+        refresh_token: credential.refresh_token,
+        client_id: clientId,
+        client_secret: clientSecret,
+        scope: 'public'
+      })
+      fail('credential was issued multiple times')
+    } catch (e) {
+      expect(e.stack).toBeDefined()
+    }
   })
 })
