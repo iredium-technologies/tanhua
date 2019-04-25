@@ -12,6 +12,7 @@ export class CredentialsController extends ApiController {
   }
 
   public async issueCredential (req): Promise<JsonResponse> {
+    this.authorize('issueCredential')
     const credential = await this.service.create(req.body)
     const now = new Date()
     const expiresAt = new Date(credential.expires_at)
