@@ -39,17 +39,7 @@ export class CredentialService extends BaseService {
     this.scope = scope
     this.authenticatedUserId = authenticated_user_id
     this.refreshToken = refresh_token
-    let credential = await this.Model.findOne({
-      client_id: this.clientId,
-      active: true,
-      expires_at: {
-        $gte: new Date()
-      }
-    })
-    if (!credential) {
-      credential = await this.issueToken()
-    }
-    return credential
+    return this.issueToken()
   }
 
   protected async issueToken (): Promise<CredentialInterface> {
@@ -108,16 +98,20 @@ export class CredentialService extends BaseService {
   }
 
   protected async resfreshToken (): Promise<CredentialInterface> {
+    if (!this.refreshToken) throw new BaseError('Invalid refresh token')
     const oldCredential = await this.Model.findOne({
+      active: true,
       refresh_token: this.refreshToken
     })
     if (!oldCredential) {
       throw new BaseError('Invalid refresh token')
     }
+    oldCredential.active = false
+    await oldCredential.save()
     if (oldCredential.user_id) {
-      return this.createToken()
+      return this.createRefreshableToken()
     }
-    return this.createRefreshableToken()
+    return this.createToken()
   }
 
   protected getDateHoursFromNow (hours): Date {
@@ -136,6 +130,7 @@ export class CredentialService extends BaseService {
 
   protected tokenData (): object {
     return {
+      generatedAt: Date.now(),
       authenticatedUserId: this.authenticatedUserId,
       clientId: this.clientId
     }
