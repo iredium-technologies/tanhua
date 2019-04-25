@@ -53,24 +53,6 @@ describe('Credential Fields Test', async (): Promise<void> => {
 })
 
 describe('Issue Credential Test', async (): Promise<void> => {
-  it('should issues the same credential if old credential still valid', async (): Promise<void> => {
-    const credential = await credentials.create({
-      grant_type: 'client_credentials',
-      client_id: clientId,
-      client_secret: clientSecret,
-      scope: 'public'
-    })
-
-    const credential2 = await credentials.create({
-      grant_type: 'client_credentials',
-      client_id: clientId,
-      client_secret: clientSecret,
-      scope: 'public'
-    })
-
-    expect(credential._id.toString()).toBe(credential2._id.toString())
-  })
-
   it('should issues different credential for each clientId', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'client_credentials',
@@ -99,5 +81,60 @@ describe('Issue Credential Test', async (): Promise<void> => {
     const expiresAt = new Date(credential.expires_at)
     const diff = expiresAt.getTime() - now.getTime()
     expect(Math.ceil(diff / 60000)).toBe(120)
+  })
+
+  it('should issues non-refreshable credential for client credentials grant', async (): Promise<void> => {
+    const credential = await credentials.create({
+      grant_type: 'client_credentials',
+      client_id: clientId,
+      client_secret: clientSecret,
+      scope: 'public'
+    })
+    expect(credential.refresh_token).toBeFalsy()
+  })
+
+  it('should issues refreshable credential for password grant', async (): Promise<void> => {
+    const credential = await credentials.create({
+      grant_type: 'password',
+      client_id: clientId,
+      client_secret: clientSecret,
+      scope: 'public'
+    })
+    expect(credential.refresh_token).toBeDefined()
+  })
+
+  it('should issues refreshable credential for refresh grant with authenticated_user_id', async (): Promise<void> => {
+    const credential = await credentials.create({
+      grant_type: 'password',
+      client_id: clientId,
+      client_secret: clientSecret,
+      scope: 'public',
+      authenticated_user_id: 'kepi'
+    })
+    const refreshedCredential = await credentials.create({
+      grant_type: 'refresh_token',
+      refresh_token: credential.refresh_token,
+      client_id: clientId,
+      client_secret: clientSecret,
+      scope: 'public'
+    })
+    expect(refreshedCredential.refresh_token).toBeDefined()
+  })
+
+  it('should issues non-refreshable credential for refresh grant with no authenticated_user_id', async (): Promise<void> => {
+    const credential = await credentials.create({
+      grant_type: 'password',
+      client_id: clientId,
+      client_secret: clientSecret,
+      scope: 'public'
+    })
+    const refreshedCredential = await credentials.create({
+      grant_type: 'refresh_token',
+      refresh_token: credential.refresh_token,
+      client_id: clientId,
+      client_secret: clientSecret,
+      scope: 'public'
+    })
+    expect(refreshedCredential.refresh_token).toBeFalsy()
   })
 })
