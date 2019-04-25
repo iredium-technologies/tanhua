@@ -90,7 +90,6 @@ export class ApiGateway {
       userResHeaderDecorator: (headers, userReq, userRes, proxyReq, proxyRes): object => {
         // recieves an Object of headers, returns an Object of headers.
         this.executeHookHandlersSynchronous('tanhua:proxy:userResHeaderDecorator', headers, userReq, userRes, proxyReq, proxyRes)
-        headers['x-request-id'] = userReq['request_id']
         return headers
       },
       userResDecorator: async (proxyRes, proxyResData, userReq, userRes): Promise<string> => {
@@ -99,7 +98,6 @@ export class ApiGateway {
       },
       proxyReqOptDecorator: async (proxyReqOpts, srcReq): Promise<object> => {
         await this.executeHookHandlers('tanhua:proxy:proxyReqOptDecorator', proxyReqOpts, srcReq)
-        proxyReqOpts.headers['x-request-id'] = srcReq['request_id']
         return proxyReqOpts
       },
       proxyReqBodyDecorator: async (bodyContent, srcReq): Promise<string> => {
