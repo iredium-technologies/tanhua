@@ -1,3 +1,4 @@
+NODE_ENV=development
 APP_NAME=Butterfly
 
 PORT=3000
