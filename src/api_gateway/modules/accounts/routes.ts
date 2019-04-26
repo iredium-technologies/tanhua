@@ -4,6 +4,7 @@ import * as c from './controllers'
 
 export function accountsRoutes (route: RouteDrawer): void {
   route.get('/me', handle(c.UsersController, 'me'))
+  route.post('/users/authenticate', handle(c.UsersController, 'authenticate'))
   route.post('/oauth/token', handle(c.OauthController, 'token'))
   route.resources('/users', c.UsersController)
 }
