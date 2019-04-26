@@ -33,7 +33,7 @@
     "eslint"
   ],
   "dependencies": {
-    "@iredium/butterfly": "^0.0.34",
+    "@iredium/butterfly": "^0.0.35",
     "express-http-proxy": "^1.5.1",
     "yaml": "^1.4.0"
   },
