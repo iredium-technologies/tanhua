@@ -104,6 +104,24 @@ describe('Issue Credential Test', async (): Promise<void> => {
     expect(credential.refresh_token).toBeDefined()
   })
 
+  it('should issues different refreshable credential for password grant for each user', async (): Promise<void> => {
+    const credential1 = await credentials.create({
+      grant_type: 'password',
+      client_id: clientId,
+      client_secret: clientSecret,
+      authenticated_user_id: 'user_123',
+      scope: 'public'
+    })
+    const credential2 = await credentials.create({
+      grant_type: 'password',
+      client_id: clientId,
+      client_secret: clientSecret,
+      authenticated_user_id: 'user_124',
+      scope: 'public'
+    })
+    expect(credential1.token === credential2.token).toBeFalsy()
+  })
+
   it('should issues refreshable credential for refresh grant with authenticated_user_id', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'password',
