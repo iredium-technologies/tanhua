@@ -1,14 +1,14 @@
-import { ApplicationPolicy } from '../policies/application'
-import { ApplicationService } from '../../oauth2/services/application'
+import { OauthPolicy } from '../policies/oauth'
+import { ApplicationService } from '../services/application'
 import { BaseController } from '@iredium/butterfly/lib/controllers'
 import { BaseResponse, ViewResponse } from '@iredium/butterfly/lib/routes'
 
-export class ApplicationsController extends BaseController {
+export class OauthController extends BaseController {
   public constructor () {
-    super(ApplicationService, ApplicationPolicy)
+    super(ApplicationService, OauthPolicy)
   }
 
-  public async index (req): Promise<BaseResponse> {
+  public async applications (req): Promise<BaseResponse> {
     this.authorize('index')
 
     const pagination = await this.service.paginate({
@@ -17,7 +17,7 @@ export class ApplicationsController extends BaseController {
       query: Object.assign(req.query, { deleted_at: null })
     })
 
-    return new ViewResponse('pages/oauth/applications/index.pug', {
+    return new ViewResponse('pages/applications/index.pug', {
       data: await pagination.getData(),
       meta: await pagination.getMeta()
     })
