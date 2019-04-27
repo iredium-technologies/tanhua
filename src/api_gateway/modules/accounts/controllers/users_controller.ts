@@ -30,11 +30,12 @@ export class UsersController extends ApiController {
   public async login (req): Promise<BaseResponse> {
     this.authorize('login')
     try {
-      await this.service.authenticate('password', {
+      const user = await this.service.authenticate('password', {
         email: req.body.email,
         username: req.body.username,
         password: req.body.password
       })
+      req['session'].authenticatedUserId = user._id
       return new RedirectResponse(req.query.from || '/')
     } catch (error) {
       return new ViewResponse('pages/login/index.pug', {
@@ -51,7 +52,8 @@ export class UsersController extends ApiController {
       if (req.body.password !== req.body.password_again) {
         throw new BaseError('Register Error', 'Password doesn\'t match')
       }
-      await this.service.create(req.body)
+      const user = await this.service.create(req.body)
+      req['session'].authenticatedUserId = user._id
       return new RedirectResponse(req.query.from || '/')
     } catch (error) {
       return new ViewResponse('pages/register/index.pug', {
@@ -65,14 +67,14 @@ export class UsersController extends ApiController {
   public async loginView (req): Promise<BaseResponse> {
     this.authorize('login')
     return new ViewResponse('pages/login/index.pug', {
-      from: req.query.from
+      from: encodeURIComponent(req.query.from)
     })
   }
 
   public async registerView (req): Promise<BaseResponse> {
     this.authorize('register')
     return new ViewResponse('pages/register/index.pug', {
-      from: req.query.from
+      from: encodeURIComponent(req.query.from)
     })
   }
 }

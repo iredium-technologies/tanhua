@@ -27,12 +27,16 @@ export class OauthController extends BaseController {
   }
 
   public async authorize (req): Promise<BaseResponse> {
-    // TODO: check if user_id exists in session, if not, redirect to login page
+    if (!req['session'].authenticatedUserId) {
+      var fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
+      return new RedirectResponse(`/users/login?from=${encodeURIComponent(fullUrl)}`)
+    }
 
     const query = req.query || {}
     const clientId = query.client_id
     const scope = query.scope
     const redirectUri = query.redirect_uri
+    const authenticatedUserId = req['session'].authenticatedUserId
 
     const applications = new ApplicationService()
     const application = await applications.Model.findOne({
@@ -54,7 +58,7 @@ export class OauthController extends BaseController {
     const authorizationCode = await authorizationCodes.create({
       client_id: application.client_id,
       client_secret: application.client_secret,
-      authenticated_user_id: 'xxx', // TODO: get user id from session
+      authenticated_user_id: authenticatedUserId,
       scope,
       redirect_uri: redirectUri
     }) as AuthorizationCodeInterface // TODO: using as seems hacky :(
