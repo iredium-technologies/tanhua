@@ -1,7 +1,9 @@
-import { RouteDrawer } from '@iredium/butterfly/lib/routes'
+import { RouteDrawer, handle } from '@iredium/butterfly/lib/routes'
 import * as c from './controllers'
 
 export function oauthRoutes (route: RouteDrawer): void {
+  route.get('/oauth/applications', handle(c.OauthController, 'applications'))
+  route.get('/oauth/authorize', handle(c.OauthController, 'authorize'))
   route.resources('/applications', c.ApplicationsController)
   route.resources('/credentials', c.CredentialsController)
 }

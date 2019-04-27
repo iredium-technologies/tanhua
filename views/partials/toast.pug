@@ -1,0 +1,10 @@
+if error
+  span#errorMessage.hidden(data=`${error.message}`)
+script.
+  document.addEventListener('DOMContentLoaded', function onDOMContentLoaded () {
+    const errorMessageElement = document.getElementById('errorMessage')
+    if (errorMessageElement) {
+      const errorMessage = errorMessageElement.getAttribute('data')
+      M.toast({html: errorMessage})
+    }
+  }, false);
