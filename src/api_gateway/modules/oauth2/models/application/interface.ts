@@ -6,5 +6,6 @@ export interface ApplicationInterface extends BaseModelInterface {
   redirect_uris: string;
   client_id: string;
   client_secret: string;
+  scope: string;
   active: boolean;
 }

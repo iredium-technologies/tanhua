@@ -1,3 +1,4 @@
+import { AuthorizationCodeService } from './authorization_code'
 import { ApplicationInterface } from './../models/application/interface'
 import { Application } from './../models/application'
 import { CredentialInterface } from './../models/credential/interface'
@@ -16,6 +17,8 @@ export class CredentialService extends BaseService {
   protected authenticatedUserId: string = ''
   protected refreshToken: string = ''
   protected tokenExpiresIn: number = 2
+  protected code: string = ''
+  protected redirectUri: string = ''
 
   public constructor () {
     super(Credential)
@@ -27,7 +30,9 @@ export class CredentialService extends BaseService {
     client_secret,
     scope,
     authenticated_user_id = null,
-    refresh_token = null
+    refresh_token = null,
+    code = null,
+    redirect_uri = null
   }): Promise<CredentialInterface> {
     const application: ApplicationInterface = await Application.findOne({ client_id })
     if (!application || application.client_secret !== client_secret) {
@@ -39,6 +44,8 @@ export class CredentialService extends BaseService {
     this.scope = scope
     this.authenticatedUserId = authenticated_user_id
     this.refreshToken = refresh_token
+    this.code = code
+    this.redirectUri = redirect_uri
     return this.issueToken()
   }
 
@@ -57,6 +64,13 @@ export class CredentialService extends BaseService {
       }
 
       case 'authorization_code': {
+        const authorizationCodes = new AuthorizationCodeService()
+        const authorizationCode = await authorizationCodes.Model.findOne({ active: true, code: this.code })
+        if (!authorizationCode) throw new BaseError('Invalid Authorization', 'Invalid or expired authorization code')
+        authorizationCode.active = false
+        await authorizationCode.save()
+        this.authenticatedUserId = authorizationCode.user_id
+        this.scope = authorizationCode.scope
         if (this.authenticatedUserId) {
           return this.createRefreshableToken()
         } else {

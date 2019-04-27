@@ -39,7 +39,9 @@ export class OauthController extends ApiController {
       client_secret: req.body.client_secret,
       scope: req.body.scope,
       authenticated_user_id: user ? user._id : null,
-      refresh_token: req.body.refresh_token
+      refresh_token: req.body.refresh_token,
+      code: req.body.code,
+      redirect_uri: req.body.redirect_uri
     }
 
     const res = await this.axios.post(url, data)
