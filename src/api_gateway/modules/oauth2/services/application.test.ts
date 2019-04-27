@@ -13,7 +13,8 @@ describe('Credential Fields Test', async (): Promise<void> => {
       name: `test_application_${Date.now()}`,
       client_id: `client_id_${Date.now()}`,
       client_secret: `client_secret_${Date.now()}`,
-      redirect_uris: 'http://localhost'
+      redirect_uris: 'http://localhost',
+      scope: 'user'
     })
   })
 

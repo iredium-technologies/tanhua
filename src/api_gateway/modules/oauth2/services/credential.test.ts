@@ -19,13 +19,15 @@ describe('Credential Fields Test', async (): Promise<void> => {
       name: `test_application_${Date.now()}`,
       client_id: clientId,
       client_secret: clientSecret,
-      redirect_uris: 'http://localhost'
+      redirect_uris: 'http://localhost',
+      scope: 'user'
     })
     await applications.create({
       name: `test_application_${Date.now()}`,
       client_id: clientId2,
       client_secret: clientSecret2,
-      redirect_uris: 'http://localhost'
+      redirect_uris: 'http://localhost',
+      scope: 'user'
     })
     credential = await credentials.create({
       grant_type: 'client_credentials',
