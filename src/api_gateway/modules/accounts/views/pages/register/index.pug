@@ -1,0 +1,37 @@
+extends ../../../../../../../views/layouts/default.pug
+
+block content
+  .jumbotron
+    h1 Register
+  .row
+    form.col.s6(method='post' action=`/users/register${from ? `?from=${from}` : ''}`)
+      .row
+        .input-field.col.s6
+          input#first_name.validate(name='first_name' type='text' value=`${body ? body.first_name : ''}`)
+          label(for='first_name') First Name
+        .input-field.col.s6
+          input#last_name.validate(name='last_name' type='text' value=`${body ? body.last_name : ''}`)
+          label(for='last_name') Last Name
+      .row
+        .input-field.col.s12
+          input#email.validate(name='email' type='email' value=`${body ? body.email : ''}`)
+          label(for='email') Email
+      .row
+        .input-field.col.s12
+          input#username.validate(name='username' type='text' value=`${body ? body.username : ''}`)
+          label(for='username') Username
+      .row
+        .input-field.col.s12
+          input#password.validate(name='password' type='password')
+          label(for='password') Password
+      .row
+        .input-field.col.s12
+          input#password_again.validate(name='password_again' type='password')
+          label(for='password_again') Password Again
+      .row
+        .input-field.col.s6
+          button.btn.waves-effect.waves-ligh.blue.darken-2(type='submit' name='action')
+            | Register
+            i.material-icons.right send
+
+  include ../../../../../../../views/partials/toast.pug
