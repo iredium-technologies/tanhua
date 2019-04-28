@@ -1,8 +1,8 @@
-# API Gateway
+# API Gateway and Auth Server
 
 ## Description
 
-Nothing special, just an API Gateway
+Nothing special, just an API Gateway with a built-in Auth Server
 
 ## Development Guide
 - Install dependencies
