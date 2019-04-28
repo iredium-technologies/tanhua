@@ -23,3 +23,20 @@ Nothing special, just an API Gateway with a built-in Auth Server
     ```
     yarn dev
     ```
+    
+## Endpoints
+- GET `/users/login`:
+  Login page
+  
+- GET `/users/register`:
+  Register page
+  
+- GET `/oauth/applications`:
+  Oauth2 applications dashboard
+
+- GET `/oauth/authorize`:
+  Authorization Code flow code issuer
+
+- POST `/oauth/token`:
+  Credential issuer
+  
