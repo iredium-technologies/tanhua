@@ -13,6 +13,9 @@ export class Session extends BaseMiddleware {
       secret: 'work hard',
       resave: true,
       saveUninitialized: false,
+      cookie: {
+        domain: process.env.SESSION_COOKIE_DOMAIN
+      },
       store: new MongoStore({
         mongooseConnection: db.connection
       })
