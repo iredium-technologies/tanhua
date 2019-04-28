@@ -3,6 +3,7 @@ APP_NAME=Butterfly
 
 PORT=3039
 
+SESSION_SECRET=session-secret
 SESSION_COOKIE_DOMAIN=.localhost
 
 MONGO_HOST=localhost

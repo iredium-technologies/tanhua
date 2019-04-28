@@ -10,7 +10,7 @@ export class Session extends BaseMiddleware {
   public generate ({ databases }): express.RequestHandler {
     const db: Database = databases.find((database: Database): boolean => database.name === 'mongoDb')
     return session({
-      secret: 'work hard',
+      secret: process.env.SESSION_SECRET,
       resave: true,
       saveUninitialized: false,
       cookie: {
