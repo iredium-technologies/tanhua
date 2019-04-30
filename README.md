@@ -1,8 +1,8 @@
-# API Gateway
+# API Gateway and Auth Server
 
 ## Description
 
-Nothing special, just an API Gateway
+Nothing special, just an API Gateway with a built-in Auth Server
 
 ## Development Guide
 - Install dependencies
@@ -23,3 +23,20 @@ Nothing special, just an API Gateway
     ```
     yarn dev
     ```
+    
+## Endpoints
+- GET `/users/login`:
+  Login page
+  
+- GET `/users/register`:
+  Register page
+  
+- GET `/oauth/applications`:
+  Oauth2 applications dashboard
+
+- GET `/oauth/authorize`:
+  Authorization Code flow code issuer
+
+- POST `/oauth/token`:
+  Credential issuer
+  
