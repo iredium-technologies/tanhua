@@ -6,6 +6,7 @@ export default {
   userServiceClass: UserService,
   modules: [
     '~/src/api_gateway/modules/request_id',
+    '~/src/api_gateway/modules/method_override',
     '~/src/api_gateway/modules/session',
     '~/src/api_gateway/modules/accounts',
     '~/src/api_gateway/modules/user_id',
