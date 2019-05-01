@@ -1,0 +1,38 @@
+extends ../../../../../../../views/layouts/default.pug
+
+block content
+  .jumbotron
+    h1= `${title}`
+  .row
+    form.col.s6(method='POST' action=`/oauth/applications${body && body._id ? `/${body._id}` : ''}?_method=${method || 'POST'}${from ? `&from=${from}` : ''}`)
+      .row
+        .input-field.col.s12
+          input(name='_method' type='hidden' value=`${method || 'POST'}`)
+      .row
+        .input-field.col.s12
+          input#name.validate(name='name' type='text' value=`${body ? body.name : ''}`)
+          label(for='name') Name
+      if body && body._id
+        .row
+          .input-field.col.s12
+            input#client_id.validate(disabled="disabled" type='text' value=`${body ? body.client_id : ''}`)
+            label(for='client_id') Client ID
+        .row
+          .input-field.col.s12
+            input#client_secret.validate(disabled="disabled" type='text' value=`${body ? body.client_secret : ''}`)
+            label(for='client_secret') Client Secret
+      .row
+        .input-field.col.s12
+          textarea#redirect_uris.materialize-textarea.validate(name='redirect_uris')= `${body ? body.redirect_uris : ''}`
+          label(for='redirect_uris') Redirect URIs
+      .row
+        .input-field.col.s12
+          input#scope.validate(name='scope' type='text' value=`${body ? body.scope : ''}`)
+          label(for='scope') Scope
+      .row
+        .input-field.col.s6
+          button.btn.waves-effect.waves-ligh.blue.darken-2(type='submit' name='action')
+            | Submit
+            i.material-icons.right send
+
+  include ../../../../../../../views/partials/toast.pug
