@@ -33,7 +33,7 @@
     "eslint"
   ],
   "dependencies": {
-    "@iredium/butterfly": "^0.0.43",
+    "@iredium/butterfly": "^0.0.54",
     "axios": "^0.18.0",
     "connect-mongo": "^2.0.3",
     "express-http-proxy": "^1.5.1",
