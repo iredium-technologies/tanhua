@@ -4,7 +4,11 @@ import { BaseService } from '@iredium/butterfly/lib/services'
 import { UserInterface } from '../models/user/interface'
 
 export class UserService extends BaseService {
-  public Model: UserType = User
+  public Model: UserType
+
+  public constructor () {
+    super(User)
+  }
 
   public async authenticate (strategy, data): Promise<UserInterface> {
     let user: UserInterface = null
