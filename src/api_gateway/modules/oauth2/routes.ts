@@ -7,6 +7,7 @@ export function oauthRoutes (route: RouteDrawer): void {
   route.post('/oauth/applications', handle(c.ApplicationsController, 'createAction'))
   route.get('/oauth/applications/:application/edit', handle(c.ApplicationsController, 'editForm'))
   route.patch('/oauth/applications/:application', handle(c.ApplicationsController, 'editAction'))
+  route.delete('/oauth/applications/:application', handle(c.ApplicationsController, 'deleteAction'))
   route.get('/oauth/authorize', handle(c.OauthController, 'authorize'))
   route.resources('/applications', c.ApplicationsController)
   route.resources('/credentials', c.CredentialsController)

@@ -35,14 +35,6 @@ export class ApplicationsController extends ApiController {
     }
   }
 
-  public async createForm (req): Promise<BaseResponse> {
-    return new ViewResponse('pages/applications/form.pug', {
-      title: 'Create a New Application',
-      body: req.session['form'],
-      error: req.session['error']
-    })
-  }
-
   public async editAction (req, application: ApplicationInterface): Promise<BaseResponse> {
     try {
       const { name, redirect_uris, scope } = req.body
@@ -55,6 +47,23 @@ export class ApplicationsController extends ApiController {
       req.session['error'] = error
       return new RedirectResponse(req.header('Referer'))
     }
+  }
+
+  public async deleteAction (req, application: ApplicationInterface): Promise<BaseResponse> {
+    try {
+      await this.service.delete(application)
+      return new RedirectResponse('/oauth/applications')
+    } catch (error) {
+      return new RedirectResponse('/oauth/applications')
+    }
+  }
+
+  public async createForm (req): Promise<BaseResponse> {
+    return new ViewResponse('pages/applications/form.pug', {
+      title: 'Create a New Application',
+      body: req.session['form'],
+      error: req.session['error']
+    })
   }
 
   public async editForm (req, application: ApplicationInterface): Promise<BaseResponse> {
