@@ -31,3 +31,5 @@ block content
               form(id=`delete_form_${app._id}` method='POST' action=`/oauth/applications/${app._id}?_method=DELETE`)
                 input(name='_method' type='hidden' value='DELETE')
                 a(href='javascript:{}' onclick=`document.getElementById('delete_form_${app._id}').submit(); return false;` type=submit) delete
+
+  include ../../../../../../../views/partials/pagination.pug

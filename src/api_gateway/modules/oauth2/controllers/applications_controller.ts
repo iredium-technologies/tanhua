@@ -20,7 +20,8 @@ export class ApplicationsController extends ApiController {
 
     return new ViewResponse('pages/applications/index.pug', {
       data: await pagination.getData(),
-      meta: await pagination.getMeta()
+      meta: await pagination.getMeta(),
+      links: pagination.links()
     })
   }
 

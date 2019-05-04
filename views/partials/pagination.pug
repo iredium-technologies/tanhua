@@ -1,0 +1,15 @@
+ul.pagination
+  li.waves-effect(class=`${!links.prev.page ? 'disabled' : ''}`)
+    a(href=`${links.prev.page ? links.prev.queryString : ''}` disabled=`${!links.prev.page ? 'disabled' : ''}`)
+      i.material-icons chevron_left
+  for page in links.pages
+    if (page.page)
+      li(class=`${page.current ? 'active blue darken-2' : 'waves-effect'}`)
+        a(href=`${page.queryString}`)= page.page
+    else
+      li
+        span
+        | ...
+  li.waves-effect(class=`${!links.next.page ? 'disabled' : ''}`)
+    a(href=`${links.next.page ? links.next.queryString : ''}` disabled=`${!links.next.page ? 'disabled' : ''}`)
+      i.material-icons chevron_right
