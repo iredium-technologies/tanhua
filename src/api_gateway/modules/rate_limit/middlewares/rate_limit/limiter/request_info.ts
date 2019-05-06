@@ -64,6 +64,12 @@ export class RequestInfo {
     const infoQuery = { basePath, expiresInSeconds, scope, ip, clientId, userId }
     let count = 0
 
+    if (
+      (!ip || !clientId) ||
+      (scope === 'user' && !userId)) {
+      return null
+    }
+
     if (res) {
       const cachedCount = parseInt(res, 10)
       if (!isNaN(cachedCount)) {

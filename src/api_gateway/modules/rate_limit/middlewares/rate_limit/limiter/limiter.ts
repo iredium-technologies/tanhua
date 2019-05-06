@@ -38,6 +38,8 @@ export class Limiter {
 
     let requestInfo = await RequestInfo.get(requestInfoQuery)
 
+    if (!requestInfo) return
+
     if (requestInfo.count >= max) {
       throw new BaseError('Rate Limit', 'Rate limit exceeded', null, {
         basePath,
