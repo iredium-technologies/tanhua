@@ -36,9 +36,13 @@ export class Limiter {
       userId
     }
 
-    let requestInfo = await RequestInfo.get(requestInfoQuery)
+    if (
+      (!ip || !clientId) ||
+      (scope === 'user' && !userId)) {
+      return
+    }
 
-    if (!requestInfo) return
+    let requestInfo = await RequestInfo.get(requestInfoQuery)
 
     if (requestInfo.count >= max) {
       throw new BaseError('Rate Limit', 'Rate limit exceeded', null, {
