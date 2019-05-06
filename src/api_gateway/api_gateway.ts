@@ -41,8 +41,9 @@ export class ApiGateway {
   }
 
   public async init (): Promise<void> {
+    this.butterfly.app.enable('trust proxy')
     await this.loadModules()
-    this.registerMiddlewares()
+    await this.registerMiddlewares()
   }
 
   protected async loadModules (): Promise<void> {
@@ -57,14 +58,14 @@ export class ApiGateway {
     }
   }
 
-  protected registerMiddlewares (): void {
+  protected async registerMiddlewares (): Promise<void> {
     for (let api of this.apis) {
       const middlewares = []
       const config = api.config
 
       this.middlewares.push(new RequestId())
 
-      this.executeHookHandlers('tanhua:registerApiMiddlewares', { middlewares: this.middlewares })
+      await this.executeHookHandlers('tanhua:registerApiMiddlewares', { middlewares: this.middlewares, api })
       this.registerProxyHandlers(config)
 
       for (let middleware of this.middlewares) {

@@ -10,6 +10,8 @@ export default {
     '~/src/api_gateway/modules/session',
     '~/src/api_gateway/modules/accounts',
     '~/src/api_gateway/modules/user_id',
-    '~/src/api_gateway/modules/oauth2'
+    '~/src/api_gateway/modules/oauth2',
+    '~/src/api_gateway/modules/rate_limit',
+    '~/src/api_gateway/modules/error_log'
   ]
 }

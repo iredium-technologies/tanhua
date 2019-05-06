@@ -8,6 +8,7 @@ export class VerifyAccessToken extends BaseMiddleware {
       const verifier = new DatabaseAccessTokenVerifier(req.headers['authorization'])
       const credential = await verifier.verifyToken()
       req['authenticatedUserId'] = credential.user_id
+      req['clientId'] = credential.client_id
       next()
     }
   }
