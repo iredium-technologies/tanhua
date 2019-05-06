@@ -865,10 +865,10 @@
     through2 "^2.0.0"
     xdg-basedir "^3.0.0"
 
-"@iredium/butterfly@^0.0.58":
-  version "0.0.58"
-  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.0.58.tgz#65f5f77e2089794ca8089d1c501717b16ec48051"
-  integrity sha512-zGpS2D81tD/Y+LnzjhTzymYRpR4Eqej6XDPSncLwy2ydBBo50H0fZlLbMUhJuj10uZRsM06L1Xebd4bIkpPdXA==
+"@iredium/butterfly@^0.0.61":
+  version "0.0.61"
+  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.0.61.tgz#0734a598035168af3c8a758c399f429d6461a243"
+  integrity sha512-xKVbsjuhS/WMToN5DKx+kzQjgetE0VY3aA1aDitz1f61AqWTCGiStITwiXMwymzZ42UcgVY7HQ3g46Z1vlLiAw==
   dependencies:
     "@types/email-templates" "^3.5.0"
     "@types/mongoose" "^5.3.23"
@@ -894,6 +894,7 @@
     multer-s3 "^2.7.0"
     node-uuid "^1.4.8"
     pluralize "^7.0.0"
+    redis "^2.8.0"
     repl-promised "^0.1.0"
     request "^2.82.0"
     rimraf "^2.6.2"
