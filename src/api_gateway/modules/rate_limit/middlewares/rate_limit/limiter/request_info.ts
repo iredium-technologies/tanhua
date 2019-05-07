@@ -1,15 +1,15 @@
 import { Redis } from '@iredium/butterfly/lib/databases/redis'
 
 export class RequestInfo {
-  public scope: string
-  public basePath: string
-  public ip: string
-  public clientId: string
-  public userId: string
-  public scopeRef: string
-  public count: number
-  public expiresInSeconds: number
+  protected scope: string
+  protected basePath: string
+  protected ip: string
+  protected clientId: string
+  protected userId: string
+  protected expiresInSeconds: number
   protected redis: Redis
+  private _scopeRef: string
+  private _count: number
 
   public constructor ({
     scope,
@@ -42,6 +42,26 @@ export class RequestInfo {
     this.expiresInSeconds = expiresInSeconds
     this.scopeRef = map[scope]
     this.redis = new Redis()
+  }
+
+  public get count (): number {
+    return this._count
+  }
+
+  public set count (count: number) {
+    this._count = count
+  }
+
+  public get scopeRef (): string {
+    return this._scopeRef
+  }
+
+  public set scopeRef (scopeRef: string) {
+    this._scopeRef = scopeRef
+  }
+
+  public get key (): string {
+    return this.getKey()
   }
 
   public static async get ({ basePath, expiresInSeconds, scope, ip, clientId, userId }: {
@@ -118,6 +138,7 @@ export class RequestInfo {
         if (error) {
           reject(error)
         } else {
+          this.count = reply
           if (reply === 1) {
             this.redis.connection.expire(key, expiresInSeconds, (error): void => {
               if (error) {
