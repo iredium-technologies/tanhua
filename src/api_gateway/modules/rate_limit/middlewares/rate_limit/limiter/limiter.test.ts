@@ -101,62 +101,53 @@ describe('Limiter Test', (): void => {
     await expect(limiter.performLimit(query)).rejects.toThrow('Rate limit exceeded')
   })
 
-  it('should have always 0 count for invalid ip query', async (): Promise<void> => {
-    let limiter: Limiter = new Limiter(limiterIpConstructor)
+  it('should always 0 count for invalid query', async (): Promise<void> => {
     const query = {
       ...generateQuery(),
-      ip: null
+      ip: null,
+      clientId: null,
+      userId: null
     }
-
-    for (let i = 0; i < limiterIpConstructor.max; i++) {
-      await limiter.performLimit(query)
-    }
-
-    expect(limiter.count).toEqual(0)
-  })
-
-  it('should have always 0 count for invalid app query', async (): Promise<void> => {
-    let limiter: Limiter = new Limiter(limiterAppConstructor)
-    const query = {
-      ...generateQuery(),
-      clientId: null
-    }
-
-    for (let i = 0; i < limiterAppConstructor.max; i++) {
-      await limiter.performLimit(query)
-    }
-
-    expect(limiter.count).toEqual(0)
-  })
-
-  it('should have always 0 count for invalid user query', async (): Promise<void> => {
-    let limiter: Limiter = new Limiter(limiterUserConstructor)
-    const query = {
-      ...generateQuery()
-    }
-
-    for (let i = 0; i < limiterUserConstructor.max; i++) {
-      await limiter.performLimit(query)
-    }
-
-    expect(limiter.count).toEqual(0)
-  })
-
-  it('should store ip, app and user\'s count seperately', async (): Promise<void> => {
-    const query = generateQuery()
-    const loggedInQuery = generateQuery(true)
     let limiterIp: Limiter = new Limiter(limiterIpConstructor)
     let limiterUser: Limiter = new Limiter(limiterUserConstructor)
     let limiterApp: Limiter = new Limiter(limiterAppConstructor)
 
     for (let i = 0; i < limiterUserConstructor.max; i++) {
       await limiterIp.performLimit(query)
-      await limiterUser.performLimit(loggedInQuery)
+      await limiterUser.performLimit(query)
       await limiterApp.performLimit(query)
     }
 
-    expect(limiterIp.count).toEqual(limiterApp.count)
-    expect(limiterUser.count).toEqual(limiterApp.count)
+    const counts = [
+      limiterIp.count,
+      limiterApp.count,
+      limiterUser.count
+    ]
+
+    expect(JSON.stringify(counts)).toEqual(JSON.stringify([0, 0, 0]))
+  })
+
+  it('should store ip, app and user\'s count seperately', async (): Promise<void> => {
+    const max = limiterUserConstructor.max
+    const query = generateQuery()
+    const loggedInQuery = generateQuery(true)
+    let limiterIp: Limiter = new Limiter(limiterIpConstructor)
+    let limiterUser: Limiter = new Limiter(limiterUserConstructor)
+    let limiterApp: Limiter = new Limiter(limiterAppConstructor)
+
+    for (let i = 0; i < max; i++) {
+      await limiterIp.performLimit(query)
+      await limiterApp.performLimit(query)
+      await limiterUser.performLimit(loggedInQuery)
+    }
+
+    const counts = [
+      limiterIp.count,
+      limiterUser.count,
+      limiterApp.count
+    ]
+
+    expect(JSON.stringify(counts)).toEqual(JSON.stringify([max, max, max]))
   })
 
   it('should ignore count for app limiter using login query', async (): Promise<void> => {
