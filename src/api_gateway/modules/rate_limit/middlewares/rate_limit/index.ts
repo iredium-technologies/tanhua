@@ -1,3 +1,4 @@
+import { BaseError } from '@iredium/butterfly/lib/errors'
 import { BaseMiddleware } from '@iredium/butterfly/lib/middlewares'
 import { RequestHandler } from 'express'
 import { Limiter } from './limiter/limiter'
@@ -7,6 +8,9 @@ export class RateLimit extends BaseMiddleware {
 
   public constructor ({ scope, max, window }: { scope: string, window: number, max: number }) {
     super()
+    if (!scope || !max || !window || isNaN(max) || isNaN(window)) {
+      throw new BaseError('Rate Limit', 'Invalid scope, max or window')
+    }
     this.limiter = new Limiter({ scope, max, window })
   }
 
