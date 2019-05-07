@@ -5,7 +5,7 @@ initTest()
 
 const applications = new ApplicationService()
 
-describe('Credential Fields Test', async (): Promise<void> => {
+describe('Credential Fields Test', (): void => {
   let application = null
 
   beforeAll(async (): Promise<void> => {

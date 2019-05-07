@@ -10,7 +10,7 @@ const applications = new ApplicationService()
 let app1: ApplicationInterface | null = null
 let app2: ApplicationInterface | null = null
 
-describe('Credential Fields Test', async (): Promise<void> => {
+describe('Credential Fields Test', (): void => {
   let credential = null
 
   beforeAll(async (): Promise<void> => {
@@ -49,7 +49,7 @@ describe('Credential Fields Test', async (): Promise<void> => {
   })
 })
 
-describe('Issue Credential Test', async (): Promise<void> => {
+describe('Issue Credential Test', (): void => {
   it('should issues different credential for each clientId', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'client_credentials',
