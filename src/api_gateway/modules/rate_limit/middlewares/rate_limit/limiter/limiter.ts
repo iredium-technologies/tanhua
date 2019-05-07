@@ -64,7 +64,9 @@ export class Limiter {
       })
     }
 
-    await requestInfo.increment()
-    this.count = requestInfo.count
+    if (!(this.scope === 'app' && userId)) {
+      await requestInfo.increment()
+      this.count = requestInfo.count
+    }
   }
 }
