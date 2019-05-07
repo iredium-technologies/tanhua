@@ -6,11 +6,20 @@ export class Limiter {
   protected max: number
   protected window: number
   protected requestInfo: RequestInfo
+  private _count: number = 0
 
   public constructor ({ scope, max, window }) {
     this.scope = scope
     this.max = max
     this.window = window
+  }
+
+  public get count (): number {
+    return this._count
+  }
+
+  public set count (count: number) {
+    this._count = count
   }
 
   public async performLimit ({
@@ -53,8 +62,9 @@ export class Limiter {
         max,
         window: `${window} s`
       })
-    } else if (!(userId && scope === 'app')) {
-      requestInfo.increment()
     }
+
+    await requestInfo.increment()
+    this.count = requestInfo.count
   }
 }
