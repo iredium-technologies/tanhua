@@ -1,3 +1,4 @@
+import { ApplicationInterface } from './../models/application/interface'
 import { ApplicationService } from './application'
 import { CredentialService } from './credential'
 import { initTest } from '~/test/helpers/init-test'
@@ -6,33 +7,27 @@ initTest()
 
 const credentials = new CredentialService()
 const applications = new ApplicationService()
-let clientId = `test_client_id_${Date.now()}`
-let clientSecret = `test_client_secret_${Date.now()}`
-let clientId2 = `${clientId}-2`
-let clientSecret2 = `${clientId}-2`
+let app1: ApplicationInterface | null = null
+let app2: ApplicationInterface | null = null
 
 describe('Credential Fields Test', async (): Promise<void> => {
   let credential = null
 
   beforeAll(async (): Promise<void> => {
-    await applications.create({
+    app1 = await applications.create({
       name: `test_application_${Date.now()}`,
-      client_id: clientId,
-      client_secret: clientSecret,
       redirect_uris: 'http://localhost',
       scope: 'user'
     })
-    await applications.create({
+    app2 = await applications.create({
       name: `test_application_${Date.now()}`,
-      client_id: clientId2,
-      client_secret: clientSecret2,
       redirect_uris: 'http://localhost',
       scope: 'user'
     })
     credential = await credentials.create({
       grant_type: 'client_credentials',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       scope: 'public'
     })
   })
@@ -58,15 +53,15 @@ describe('Issue Credential Test', async (): Promise<void> => {
   it('should issues different credential for each clientId', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'client_credentials',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       scope: 'public'
     })
 
     const credential2 = await credentials.create({
       grant_type: 'client_credentials',
-      client_id: clientId2,
-      client_secret: clientSecret2,
+      client_id: app2.client_id,
+      client_secret: app2.client_secret,
       scope: 'public'
     })
     expect(credential._id.toString() !== credential2._id.toString()).toBeTruthy()
@@ -75,8 +70,8 @@ describe('Issue Credential Test', async (): Promise<void> => {
   it('should expires in 120 minutes', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'client_credentials',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       scope: 'public'
     })
     const now = new Date()
@@ -88,8 +83,8 @@ describe('Issue Credential Test', async (): Promise<void> => {
   it('should issues non-refreshable credential for client credentials grant', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'client_credentials',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       scope: 'public'
     })
     expect(credential.refresh_token).toBeFalsy()
@@ -98,8 +93,8 @@ describe('Issue Credential Test', async (): Promise<void> => {
   it('should issues refreshable credential for password grant', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'password',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       authenticated_user_id: 'user_123',
       scope: 'public'
     })
@@ -109,15 +104,15 @@ describe('Issue Credential Test', async (): Promise<void> => {
   it('should issues different refreshable credential for password grant for each user', async (): Promise<void> => {
     const credential1 = await credentials.create({
       grant_type: 'password',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       authenticated_user_id: 'user_123',
       scope: 'public'
     })
     const credential2 = await credentials.create({
       grant_type: 'password',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app2.client_id,
+      client_secret: app2.client_secret,
       authenticated_user_id: 'user_124',
       scope: 'public'
     })
@@ -127,16 +122,16 @@ describe('Issue Credential Test', async (): Promise<void> => {
   it('should issues refreshable credential for refresh grant with authenticated_user_id', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'password',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       authenticated_user_id: 'user_123',
       scope: 'public'
     })
     const refreshedCredential = await credentials.create({
       grant_type: 'refresh_token',
       refresh_token: credential.refresh_token,
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       scope: 'public'
     })
     expect(refreshedCredential.refresh_token).toBeDefined()
@@ -145,24 +140,24 @@ describe('Issue Credential Test', async (): Promise<void> => {
   it('should able to refreshes token only once', async (): Promise<void> => {
     const credential = await credentials.create({
       grant_type: 'password',
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       authenticated_user_id: 'user_123',
       scope: 'public'
     })
     await credentials.create({
       grant_type: 'refresh_token',
       refresh_token: credential.refresh_token,
-      client_id: clientId,
-      client_secret: clientSecret,
+      client_id: app1.client_id,
+      client_secret: app1.client_secret,
       scope: 'public'
     })
     try {
       await credentials.create({
         grant_type: 'refresh_token',
         refresh_token: credential.refresh_token,
-        client_id: clientId,
-        client_secret: clientSecret,
+        client_id: app1.client_id,
+        client_secret: app1.client_secret,
         scope: 'public'
       })
       fail('credential was issued multiple times')
