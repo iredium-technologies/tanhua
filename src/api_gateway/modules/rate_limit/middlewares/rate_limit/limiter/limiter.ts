@@ -47,7 +47,8 @@ export class Limiter {
 
     if (
       (!ip || !clientId) ||
-      (scope === 'user' && !userId)) {
+      (scope === 'user' && !userId) ||
+      (scope === 'app' && userId)) {
       return
     }
 
@@ -64,9 +65,7 @@ export class Limiter {
       })
     }
 
-    if (!(this.scope === 'app' && userId)) {
-      await requestInfo.increment()
-      this.count = requestInfo.count
-    }
+    await requestInfo.increment()
+    this.count = requestInfo.count
   }
 }
