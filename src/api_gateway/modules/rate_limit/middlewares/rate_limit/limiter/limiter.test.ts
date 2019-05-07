@@ -154,8 +154,19 @@ describe('Limiter Test', (): void => {
     const loggedInQuery = generateQuery(true)
     let limiter: Limiter = new Limiter(limiterAppConstructor)
 
-    for (let i = 0; i < limiterUserConstructor.max; i++) {
+    for (let i = 0; i < limiterAppConstructor.max; i++) {
       await limiter.performLimit(loggedInQuery)
+    }
+
+    expect(limiter.count).toEqual(0)
+  })
+
+  it('should ignore count for user limiter using non-login query', async (): Promise<void> => {
+    const query = generateQuery()
+    let limiter: Limiter = new Limiter(limiterUserConstructor)
+
+    for (let i = 0; i < limiterUserConstructor.max; i++) {
+      await limiter.performLimit(query)
     }
 
     expect(limiter.count).toEqual(0)
