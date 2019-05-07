@@ -6,5 +6,11 @@ export const databases = (): object => ({
     database: process.env.MONGO_DATABASE,
     username: process.env.MONGO_USERNAME,
     password: process.env.MONGO_PASSWORD
+  },
+  redis: {
+    enable: true,
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    password: process.env.REDIS_PASSWORD || null
   }
 })

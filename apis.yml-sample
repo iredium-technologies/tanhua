@@ -5,3 +5,13 @@ apis:
       uris:
         - /example
       https_only: false
+      rate_limit:
+        - scope: ip
+          window: 86400 # 24 hours
+          max: 100000
+        - scope: app
+          window: 10
+          max: 300
+        - scope: user
+          window: 10
+          max: 100

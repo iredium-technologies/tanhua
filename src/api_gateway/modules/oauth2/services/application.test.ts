@@ -5,14 +5,12 @@ initTest()
 
 const applications = new ApplicationService()
 
-describe('Credential Fields Test', async (): Promise<void> => {
+describe('Credential Fields Test', (): void => {
   let application = null
 
   beforeAll(async (): Promise<void> => {
     application = await applications.create({
       name: `test_application_${Date.now()}`,
-      client_id: `client_id_${Date.now()}`,
-      client_secret: `client_secret_${Date.now()}`,
       redirect_uris: 'http://localhost',
       scope: 'user'
     })
