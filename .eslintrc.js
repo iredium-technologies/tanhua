@@ -43,7 +43,7 @@ module.exports = {
         "typescript/no-non-null-assertion": "error",
         "typescript/no-parameter-properties": "error",
         "typescript/no-triple-slash-reference": "error",
-        "typescript/no-type-alias": "error",
+        "typescript/no-type-alias": "allow",
         "typescript/no-unused-vars": "error",
         "typescript/no-use-before-define": "error",
         "typescript/no-var-requires": "error",
