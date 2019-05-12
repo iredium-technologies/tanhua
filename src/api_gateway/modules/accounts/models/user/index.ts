@@ -22,11 +22,6 @@ Schema.methods.comparePassword = function (candidatePassword): Promise<boolean> 
 }
 
 Schema.pre('save', function (next): void {
-  this['wasNew'] = true
-  next()
-})
-
-Schema.pre('save', function (next): void {
   const user = this
   const password = user['password']
   if (!user.isModified('password')) return next()
