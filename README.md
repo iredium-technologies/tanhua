@@ -4,6 +4,13 @@
 
 Nothing special, just an API Gateway with a built-in Auth Server
 
+## Features
+- ### Rate Limit
+- ### Cache (WIP)
+- ### Monitoring (WIP)
+- ### Applications Dashboard
+- ### Yaml Config File
+
 ## Development Guide
 - Install dependencies
 
