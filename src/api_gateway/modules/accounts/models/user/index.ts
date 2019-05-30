@@ -1,7 +1,10 @@
+import { BaseSchema } from '@iredium/butterfly/lib/models'
 import { UserInterface as Interface } from './interface'
 import { Schema } from './schema'
 import { hashPassword } from '@iredium/butterfly/lib/helpers/hash_password'
 import { compareHash } from '@iredium/butterfly/lib/helpers/compare_hash'
+import { Event } from '@iredium/butterfly/lib/events'
+import { UserCreatedEvent } from '../../events/users/created'
 import mongoose = require('mongoose')
 
 Schema.methods.fullName = function (): string {
@@ -22,11 +25,6 @@ Schema.methods.comparePassword = function (candidatePassword): Promise<boolean> 
 }
 
 Schema.pre('save', function (next): void {
-  this['wasNew'] = true
-  next()
-})
-
-Schema.pre('save', function (next): void {
   const user = this
   const password = user['password']
   if (!user.isModified('password')) return next()
@@ -38,6 +36,13 @@ Schema.pre('save', function (next): void {
     .catch((err): void => {
       next(err)
     })
+})
+
+Schema.post('save', function (this: BaseSchema): void {
+  const user = this
+  if (user.wasNew) {
+    Event.emit(new UserCreatedEvent(user))
+  }
 })
 
 export const User: mongoose.Model<Interface> = mongoose.model<Interface>('User', Schema)
