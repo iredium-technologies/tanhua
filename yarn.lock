@@ -841,10 +841,10 @@
     pluralize "^7.0.0"
     redis "^2.8.0"
 
-"@iredium/kafka-adapter@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@iredium/kafka-adapter/-/kafka-adapter-0.0.4.tgz#f0fe82685f8eb69a17137e8b8401e2824528901f"
-  integrity sha512-izD/xOfiGS64drQ3ZHmV4aKg8yJqPCixxL/dZ9S59hMbp3SRIUey4nmAVCkzvNAH+sQ0MK0koC3QCdKXjj7tVQ==
+"@iredium/kafka-adapter@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@iredium/kafka-adapter/-/kafka-adapter-0.0.8.tgz#734cf9066681ccdcdcdd7ddbc2ad4713c22ccc12"
+  integrity sha512-WMxeVHj2G6UUEmkw3123fdsThkD8yTwhLWmZyR3xFE4QAnCbsHhcE90uOLC6UFpJRVKr60CUcNnV4ySG5rHuzw==
   dependencies:
     "@types/node" "^12.0.2"
     kafka-node "^4.1.3"
