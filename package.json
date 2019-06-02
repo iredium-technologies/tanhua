@@ -37,6 +37,7 @@
     "@iredium/kafka-adapter": "^0.0.8",
     "axios": "^0.19.0",
     "connect-mongo": "^2.0.3",
+    "cors": "^2.8.5",
     "express-http-proxy": "^1.5.1",
     "express-session": "^1.16.1",
     "method-override": "^3.0.0",
