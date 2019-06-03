@@ -30,13 +30,14 @@ export class UsersController extends ApiController {
   public async login (req): Promise<BaseResponse> {
     this.authorize('login')
     try {
+      const redirectTo = req.query.from || '/'
       const user = await this.service.authenticate('password', {
         email: req.body.email,
         username: req.body.username,
         password: req.body.password
       })
       req['session'].authenticatedUserId = user._id
-      return new RedirectResponse(req.query.from || '/')
+      return new RedirectResponse(redirectTo)
     } catch (error) {
       return new ViewResponse('pages/login/index.pug', {
         from: req.query.from,
@@ -66,15 +67,23 @@ export class UsersController extends ApiController {
 
   public async loginView (req): Promise<BaseResponse> {
     this.authorize('login')
+    const redirectTo = req.query.from || '/'
+    if (req['session'].authenticatedUserId) {
+      return new RedirectResponse(redirectTo)
+    }
     return new ViewResponse('pages/login/index.pug', {
-      from: encodeURIComponent(req.query.from)
+      from: req.query.from ? encodeURIComponent(req.query.from) : null
     })
   }
 
   public async registerView (req): Promise<BaseResponse> {
     this.authorize('register')
+    const redirectTo = req.query.from || '/'
+    if (req['session'].authenticatedUserId) {
+      return new RedirectResponse(redirectTo)
+    }
     return new ViewResponse('pages/register/index.pug', {
-      from: encodeURIComponent(req.query.from)
+      from: req.query.from ? encodeURIComponent(req.query.from) : null
     })
   }
 }

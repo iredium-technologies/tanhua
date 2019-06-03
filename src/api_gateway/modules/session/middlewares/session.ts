@@ -11,11 +11,13 @@ export class Session extends BaseMiddleware {
     const db: Database = databases.find((database: Database): boolean => database.name === 'mongoDb')
     return function sessionMiddleware (req, res, next): void {
       session({
+        name: 'SID',
         secret: process.env.SESSION_SECRET,
         resave: true,
         saveUninitialized: false,
         cookie: {
-          domain: process.env.SESSION_COOKIE_DOMAIN
+          domain: process.env.SESSION_COOKIE_DOMAIN,
+          httpOnly: false
         },
         store: new MongoStore({
           mongooseConnection: db.connection
