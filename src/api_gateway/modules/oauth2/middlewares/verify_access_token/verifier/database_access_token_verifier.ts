@@ -1,5 +1,5 @@
 import { CredentialInterface } from './../../../models/credential/interface'
-import { UnauthorizedError } from '@iredium/butterfly/lib/errors'
+import { UnauthenticatedError } from '@iredium/butterfly/lib/errors'
 import { CredentialService } from '~/src/api_gateway/modules/oauth2/services/credential'
 import { BaseVerifier } from '~/src/api_gateway/modules/oauth2/middlewares/verify_access_token/verifier/base_verifier'
 
@@ -15,7 +15,7 @@ export class DatabaseAccessTokenVerifier extends BaseVerifier {
         }
       }
     })
-    if (!credential.length) throw new UnauthorizedError(this.invalidTokenErrorMessage)
+    if (!credential.length) throw new UnauthenticatedError(this.invalidTokenErrorMessage)
     return credential[0] as CredentialInterface
   }
 }

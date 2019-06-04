@@ -1,5 +1,5 @@
 import { CredentialInterface } from './../../../models/credential/interface'
-import { UnauthorizedError } from '@iredium/butterfly/lib/errors'
+import { UnauthenticatedError } from '@iredium/butterfly/lib/errors'
 
 export abstract class BaseVerifier {
   protected authorization: string = null
@@ -16,7 +16,7 @@ export abstract class BaseVerifier {
         this.tokenType = splitted[0]
         this.token = splitted[1]
       } else {
-        throw new UnauthorizedError(this.invalidTokenErrorMessage)
+        throw new UnauthenticatedError(this.invalidTokenErrorMessage)
       }
     }
   }
@@ -29,13 +29,13 @@ export abstract class BaseVerifier {
 
   protected validateAuthorization (): void {
     if (!this.authorization) {
-      throw new UnauthorizedError(this.invalidTokenErrorMessage)
+      throw new UnauthenticatedError(this.invalidTokenErrorMessage)
     }
   }
 
   protected validateTokenType (): void {
     if (this.tokenType.toLocaleLowerCase() !== 'bearer') {
-      throw new UnauthorizedError(this.invalidTokenTypeErrorMessage)
+      throw new UnauthenticatedError(this.invalidTokenTypeErrorMessage)
     }
   }
 

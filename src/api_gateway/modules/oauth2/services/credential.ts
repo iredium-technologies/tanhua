@@ -4,7 +4,7 @@ import { Application } from './../models/application'
 import { CredentialInterface } from './../models/credential/interface'
 import { Credential, CredentialType } from '../models/credential'
 import { BaseService } from '@iredium/butterfly/lib/services'
-import { UnauthorizedError, BaseError } from '@iredium/butterfly/lib/errors'
+import { UnauthenticatedError } from '@iredium/butterfly/lib/errors'
 import crypto = require('crypto')
 
 export class CredentialService extends BaseService {
@@ -36,7 +36,7 @@ export class CredentialService extends BaseService {
   }): Promise<CredentialInterface> {
     const application: ApplicationInterface = await Application.findOne({ client_id })
     if (!application || application.client_secret !== client_secret) {
-      throw new UnauthorizedError('Invalid Client ID or Client Secret')
+      throw new UnauthenticatedError('Invalid Client ID or Client Secret')
     }
     this.grantType = grant_type
     this.clientId = client_id
@@ -66,7 +66,7 @@ export class CredentialService extends BaseService {
       case 'authorization_code': {
         const authorizationCodes = new AuthorizationCodeService()
         const authorizationCode = await authorizationCodes.Model.findOne({ active: true, code: this.code })
-        if (!authorizationCode) throw new BaseError('Invalid Authorization', 'Invalid or expired authorization code')
+        if (!authorizationCode) throw new UnauthenticatedError('Invalid Authorization', 'Invalid or expired authorization code')
         authorizationCode.active = false
         await authorizationCode.save()
         this.authenticatedUserId = authorizationCode.user_id
@@ -79,7 +79,7 @@ export class CredentialService extends BaseService {
       }
 
       default: {
-        throw new BaseError('Invalid Grant Type', 'invalid grant type')
+        throw new UnauthenticatedError('Invalid Grant Type', 'invalid grant type')
       }
     }
   }
@@ -97,7 +97,7 @@ export class CredentialService extends BaseService {
   }
 
   protected async createRefreshableToken (): Promise<CredentialInterface> {
-    if (!this.authenticatedUserId) throw new BaseError('authenticated_user_id is required')
+    if (!this.authenticatedUserId) throw new UnauthenticatedError('authenticated_user_id is required')
     const token = this.generateToken()
     const refreshToken = this.generateRefreshToken()
     const expiresAt = this.getDateHoursFromNow(this.tokenExpiresIn)
@@ -113,16 +113,17 @@ export class CredentialService extends BaseService {
   }
 
   protected async resfreshToken (): Promise<CredentialInterface> {
-    if (!this.refreshToken) throw new BaseError('Invalid refresh token')
+    if (!this.refreshToken) throw new UnauthenticatedError('Invalid refresh token')
     const oldCredential = await this.Model.findOne({
       active: true,
       refresh_token: this.refreshToken
     })
     if (!oldCredential) {
-      throw new BaseError('Invalid refresh token')
+      throw new UnauthenticatedError('Invalid refresh token')
     }
     oldCredential.active = false
     await oldCredential.save()
+    this.scope = oldCredential.scope
     if (oldCredential.user_id) {
       this.authenticatedUserId = oldCredential.user_id
       return this.createRefreshableToken()
@@ -141,7 +142,10 @@ export class CredentialService extends BaseService {
   }
 
   protected generateRefreshToken (): string {
-    return this.getHash(JSON.stringify(this.tokenData()))
+    return this.getHash(JSON.stringify({
+      type: 'refresh_token',
+      ...this.tokenData()
+    }))
   }
 
   protected tokenData (): object {
