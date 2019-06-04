@@ -72,7 +72,7 @@ Add the following lines to `/etc/hosts`:
 3. Copy `env` file
 
     ```sh
-    cp env.sample .env
+    cp env-sample .env
     ```
 
     Then make any changes if required.
