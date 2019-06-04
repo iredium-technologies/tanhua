@@ -14,7 +14,7 @@ export class UsersController extends ApiController {
 
   public async me (req): Promise<BaseResponse> {
     this.authorize('me')
-    return new JsonResponse(this.user)
+    return new JsonResponse(req.user)
   }
 
   public async authenticate (req): Promise<BaseResponse> {
