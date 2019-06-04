@@ -1,9 +1,25 @@
 apis:
-  - name: example
+  - name: accounts
     attributes:
-      host: localhost:3000
+      host: localhost:3039
       uris:
-        - /example
+        - /accounts
+      https_only: false
+      rate_limit:
+        - scope: ip
+          window: 86400 # 24 hours
+          max: 100000
+        - scope: app
+          window: 10
+          max: 300
+        - scope: user
+          window: 10
+          max: 100
+  - name: esport
+    attributes:
+      host: localhost:12001
+      uris:
+        - /esport
       https_only: false
       rate_limit:
         - scope: ip
