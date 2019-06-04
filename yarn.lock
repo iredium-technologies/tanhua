@@ -825,10 +825,10 @@
     reflect-metadata "^0.1.12"
     tslib "^1.8.1"
 
-"@iredium/butterfly@^0.0.73":
-  version "0.0.73"
-  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.0.73.tgz#c3144526b70cee21ff79de3229338801a6ddce16"
-  integrity sha512-S7qpApu07DCYf0TN5SSwx7bDL0nGB0/MwmZdydZivrJr99AXLsqqNhKRu2CAcixDWvY+bZsf4hqgQSADGVYmEA==
+"@iredium/butterfly@^0.0.76":
+  version "0.0.76"
+  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.0.76.tgz#0ce237a9f188c99dbda79d0a11f832f6034c99f9"
+  integrity sha512-365c2CvVxLVcBLS0vfesbYBC9cJO/ghYUrETxtES/QY4nnO66QU8zCYWYlsLeeiRMBBL2NPcKrLQGXNsAKqRrw==
   dependencies:
     "@types/mongoose" "^5.5.0"
     bcrypt "^3.0.4"
