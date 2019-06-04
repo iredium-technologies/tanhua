@@ -50,6 +50,7 @@ export class AuthorizationCodeService extends BaseService {
 
   protected tokenData (): object {
     return {
+      date: Date.now(),
       tag: 'authorization_code',
       authenticatedUserId: this.authenticatedUserId,
       clientId: this.clientId

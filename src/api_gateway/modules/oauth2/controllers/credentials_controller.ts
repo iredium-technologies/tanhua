@@ -20,7 +20,7 @@ export class CredentialsController extends ApiController {
     const refresh_token = credential.refresh_token
     return new JsonResponse({
       token_type: credential.token_type,
-      token: credential.token,
+      access_token: credential.token,
       refresh_token,
       scope: credential.scope,
       expires_in: diff,
