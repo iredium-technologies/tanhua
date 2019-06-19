@@ -17,7 +17,7 @@ apis:
           max: 100
   - name: esport
     attributes:
-      host: localhost:12001
+      host: iredium_esport_api:12001
       uris:
         - /esport
       https_only: false

@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+
+  gateway:
+    container_name: iredium_tanhua_gateway
+    build:
+      context: ../../
+      dockerfile: ./deploy/gateway/Dockerfile
+    command: yarn dev
+    restart: on-failure
+    ports:
+      - 3039:3039
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "999k"
+    networks:
+      - iredium_internal
+
+networks:
+  iredium_internal:
+    external: true
