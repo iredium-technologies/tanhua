@@ -41,7 +41,7 @@
     "express-http-proxy": "^1.5.1",
     "express-session": "^1.16.1",
     "method-override": "^3.0.0",
-    "yaml": "^1.4.0"
+    "yaml": "^1.6.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.3.4",
