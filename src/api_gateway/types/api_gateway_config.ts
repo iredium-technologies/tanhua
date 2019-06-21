@@ -3,6 +3,6 @@ import { Class } from '@iredium/butterfly/lib/types/class'
 
 export interface ApiGatewayConfig {
   apis: ApiConfig;
-  modules?: Array<string>;
+  modules?: Array<any>;
   userServiceClass: Class;
 }

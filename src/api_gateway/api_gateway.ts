@@ -55,14 +55,20 @@ export class ApiGateway {
   }
 
   protected async loadModules (): Promise<void> {
-    for (let modulePath of this.modules) {
-      modulePath = modulePath.replace(`~/${__dirname}`, '.')
-      const m = await import(`${modulePath}`)
-      m.default({
-        hook: (name, handler): void => {
-          this.hook(name, handler)
+    for (let moduleImport of this.modules) {
+      const modules = await moduleImport['call']()
+      const moduleNames = Object.keys(modules)
+
+      for (let moduleName of moduleNames) {
+        const module = modules[moduleName]
+        if (module && typeof module === 'function') {
+          module({
+            hook: (name, handler): void => {
+              this.hook(name, handler)
+            }
+          })
         }
-      })
+      }
     }
   }
 
