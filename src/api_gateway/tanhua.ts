@@ -10,6 +10,10 @@ export class Tanhua {
   public constructor () {
     this.butterfly = new Butterfly(config)
     this.apiGateway = new ApiGateway(this.butterfly, apiGatewayConfig)
+
+    this.butterfly.hook('butterfly:ready', ({ port }) => {
+      console.log(`Tanhua is running on port ${port}`)
+    })
   }
 
   public boot (): void {
