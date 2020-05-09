@@ -6,6 +6,7 @@ export default {
   userServiceClass: UserService,
   modules: [
     () => import('~/src/api_gateway/modules/cors'),
+    () => import('~/src/api_gateway/modules/logger'),
     () => import('~/src/api_gateway/modules/request_id'),
     () => import('~/src/api_gateway/modules/method_override'),
     () => import('~/src/api_gateway/modules/session'),
