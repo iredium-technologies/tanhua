@@ -1,10 +1,7 @@
-import { RouteDrawer } from '@iredium/butterfly/lib/routes'
-import corsMiddleware = require('cors')
-
-function corsRoutes (route: RouteDrawer): void {
-  route.use(corsMiddleware())
-}
+import { Cors } from './middlewares/cors'
 
 export default function cors ({ hook }): void {
-  hook('butterfly:drawRoutes', corsRoutes)
+  hook('tanhua:registerApiMiddlewares', ({middlewares}) => {
+    middlewares.unshift(new Cors())
+  })
 }

@@ -5,7 +5,6 @@ import { ApiGatewayConfig } from '~/src/api_gateway/types/api_gateway_config'
 import express from 'express'
 import { ApiConfig } from '~/src/api_gateway/types/api_config'
 import proxy = require('express-http-proxy')
-import corsMiddleware = require('cors')
 
 export class ApiGateway {
   protected app: express.Application
@@ -43,12 +42,6 @@ export class ApiGateway {
 
   public async init (): Promise<void> {
     const app = this.butterfly.app
-    app.use(corsMiddleware({
-      origin: [
-        /\.iredium.com/,
-        /\.iredium.local/
-      ]
-    }))
     app.enable('trust proxy')
     await this.loadModules()
     await this.registerMiddlewares()
