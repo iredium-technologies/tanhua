@@ -1,4 +1,3 @@
-import { CurrentUser } from './middlewares/current_user'
 import { accountsRoutes } from './routes'
 import { EventListener } from '@iredium/butterfly/lib/types/config'
 import path = require('path')
@@ -6,10 +5,6 @@ import path = require('path')
 export default function accounts ({ hook }): void {
   hook('butterfly:registerViewPaths', (paths: string[]): void => {
     paths.push(path.join(__dirname, '/views'))
-  })
-
-  hook('butterfly:registerMiddlewares', (middlewares): void => {
-    middlewares.push(new CurrentUser())
   })
 
   hook('butterfly:registerEventListener', (eventListenerMap: EventListener[]): void => {
