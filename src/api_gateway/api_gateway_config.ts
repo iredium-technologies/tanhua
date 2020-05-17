@@ -12,7 +12,7 @@ export default {
     () => import('~/src/api_gateway/modules/method_override'),
     () => import('~/src/api_gateway/modules/session'),
     () => import('~/src/api_gateway/modules/accounts'),
-    () => import('~/src/api_gateway/modules/user_id'),
+    () => import('~/src/api_gateway/modules/authenticated_user_jwt'),
     () => import('~/src/api_gateway/modules/oauth2'),
     () => import('~/src/api_gateway/modules/rate_limit'),
     () => import('~/src/api_gateway/modules/error_log')
