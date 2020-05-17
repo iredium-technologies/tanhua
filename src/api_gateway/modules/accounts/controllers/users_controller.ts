@@ -14,7 +14,7 @@ export class UsersController extends ApiController {
 
   public async me (req): Promise<BaseResponse> {
     this.authorize('me')
-    return new JsonResponse(req.user)
+    return new JsonResponse(req['locals']['user'])
   }
 
   public async authenticate (req): Promise<BaseResponse> {
@@ -37,6 +37,7 @@ export class UsersController extends ApiController {
         password: req.body.password
       })
       req['session'].authenticatedUserId = user._id
+      req['locals'].user = user
       return new RedirectResponse(redirectTo)
     } catch (error) {
       return new ViewResponse('pages/login/index.pug', {
