@@ -5,6 +5,7 @@ export default {
   apis,
   userServiceClass: UserService,
   modules: [
+    () => import('~/src/api_gateway/modules/req_locals'),
     () => import('~/src/api_gateway/modules/cors'),
     () => import('~/src/api_gateway/modules/logger'),
     () => import('~/src/api_gateway/modules/request_id'),
