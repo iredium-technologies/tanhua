@@ -11,7 +11,7 @@ export class Session extends BaseMiddleware {
     const db: Database = databases.find((database: Database): boolean => database.name === 'mongoDb')
     return function sessionMiddleware (req, res, next): void {
       session({
-        name: 'SID',
+        name: process.env.SESSION_COOKIE_NAME,
         secret: process.env.SESSION_SECRET,
         resave: true,
         saveUninitialized: false,
