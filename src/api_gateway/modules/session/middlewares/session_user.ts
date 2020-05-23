@@ -1,11 +1,20 @@
 import { BaseMiddleware } from '@iredium/butterfly/lib/middlewares/base_middleware'
 import express = require('express')
+import { UserService } from '../../accounts/services/user'
 
 export class SessionUser extends BaseMiddleware {
   public generate (): express.RequestHandler {
-    return async (req, res, next): Promise<void> => {
+    return async (req, _res, next): Promise<void> => {
       const userIdKey = 'authenticatedUserId'
-      req[userIdKey] = req['session'][userIdKey]
+      const userId = req['session'][userIdKey]
+
+      if (userId) {
+        const service = new UserService()
+        const user = await service.get(userId)
+        req[userIdKey] = userId
+        req['locals']['user'] = user
+      }
+
       next()
     }
   }

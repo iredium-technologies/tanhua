@@ -33,7 +33,7 @@
     "eslint"
   ],
   "dependencies": {
-    "@iredium/butterfly": "^0.1.16",
+    "@iredium/butterfly": "^0.1.20",
     "@iredium/kafka-adapter": "^0.0.8",
     "axios": "^0.19.0",
     "connect-mongo": "^2.0.3",
