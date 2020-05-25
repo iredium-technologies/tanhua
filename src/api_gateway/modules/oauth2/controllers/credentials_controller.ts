@@ -11,6 +11,18 @@ export class CredentialsController extends ApiController {
     super(CredentialService, CredentialPolicy)
   }
 
+  public async index (): Promise<JsonResponse> {
+    const credentials = await this.service.find({
+      query: {
+        active: true,
+        expires_at: {
+          $gte: new Date()
+        }
+      }
+    })
+    return new JsonResponse(credentials)
+  }
+
   public async create (req): Promise<JsonResponse> {
     this.authorize('issueCredential')
     const credential = await this.service.create(req.body)

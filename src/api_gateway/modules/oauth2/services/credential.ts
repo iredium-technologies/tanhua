@@ -66,7 +66,7 @@ export class CredentialService extends BaseService {
       case 'authorization_code': {
         const authorizationCodes = new AuthorizationCodeService()
         const authorizationCode = await authorizationCodes.Model.findOne({ active: true, code: this.code })
-        if (!authorizationCode) throw new UnauthenticatedError('Invalid Authorization', 'Invalid or expired authorization code')
+        if (!authorizationCode) throw new UnauthenticatedError('Invalid or expired authorization code')
         authorizationCode.active = false
         await authorizationCode.save()
         this.authenticatedUserId = authorizationCode.user_id
@@ -79,7 +79,7 @@ export class CredentialService extends BaseService {
       }
 
       default: {
-        throw new UnauthenticatedError('Invalid Grant Type', 'invalid grant type')
+        throw new UnauthenticatedError('Invalid grant type')
       }
     }
   }

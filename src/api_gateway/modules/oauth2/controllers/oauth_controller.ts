@@ -5,6 +5,7 @@ import { OauthPolicy } from '../policies/oauth'
 import { ApplicationService } from '../services/application'
 import { BaseController } from '@iredium/butterfly/lib/controllers'
 import { BaseResponse, RedirectResponse } from '@iredium/butterfly/lib/routes'
+import url = require('url')
 
 export class OauthController extends BaseController {
   public constructor () {
@@ -21,6 +22,7 @@ export class OauthController extends BaseController {
     const clientId = query.client_id
     const scope = query.scope
     const redirectUri = query.redirect_uri
+    const parsedRedirectUri = url.parse(redirectUri)
     const authenticatedUserId = req['session'].authenticatedUserId
 
     const applications = new ApplicationService()
@@ -31,7 +33,7 @@ export class OauthController extends BaseController {
 
     if (!application) throw new BaseError('Invalid Authorization', 'Invalid client id')
 
-    if (!redirectUri || !application.redirect_uris.includes(redirectUri)) {
+    if (!redirectUri || !application.redirect_uris.includes(redirectUri.replace(parsedRedirectUri.search, ''))) {
       throw new BaseError('Invalid Authorization', 'Invalid redirect uri')
     }
 

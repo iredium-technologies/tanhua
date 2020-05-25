@@ -12,11 +12,6 @@ export class UsersController extends ApiController {
     super(UserService, UserPolicy)
   }
 
-  public async me (req): Promise<BaseResponse> {
-    this.authorize('me')
-    return new JsonResponse(req['locals']['user'])
-  }
-
   public async authenticate (req): Promise<BaseResponse> {
     this.authorize('authenticate')
     const user = await this.service.authenticate('password', {
