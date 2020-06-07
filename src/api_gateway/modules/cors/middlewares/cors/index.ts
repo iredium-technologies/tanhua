@@ -6,10 +6,11 @@ export class Cors extends BaseMiddleware {
   public generate (): express.RequestHandler {
     return corsMiddleware({
       origin: [
-        /\.iredium.com/,
-        /\.iredium-dev.host/,
-        /\.localhost/,
-      ]
+        /\.iredium.com*/,
+        /\.iredium-dev.host*/,
+        /\.localhost*/,
+      ],
+      credentials: true
     });
   }
 }
