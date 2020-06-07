@@ -10,6 +10,7 @@ dotenv.config({
 
 export default {
   useViewEngine: true,
+  useDefaultLogger: false,
   userServiceClass: UserService,
   routes,
   databases,
