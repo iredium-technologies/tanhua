@@ -825,13 +825,14 @@
     reflect-metadata "^0.1.12"
     tslib "^1.8.1"
 
-"@iredium/butterfly@^0.1.20":
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.1.20.tgz#4ef379f43c3a11b669ebd4cb2ca8ebbf42c4386b"
-  integrity sha512-01pXRerob52T39icBWBVFMxxQQo4ZBuCuBZGiwG2sooPgpb1IwxJzTeC6zHVK1WXbPbNK9YZz9Oj773oaKUraw==
+"@iredium/butterfly@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@iredium/butterfly/-/butterfly-0.5.0.tgz#82d9e9cc55ca06c86c4814d8cc62031d7f463c91"
+  integrity sha512-kcpf4KolMimnnx8DQnes9SLZuc3BMkJR23Q7/yvfddu4FNFXt+Kyp+nQro1/9Y7UPwYCSzo4gGGabDK+4Dwk2Q==
   dependencies:
     "@types/mongoose" "^5.5.0"
     bcrypt "^3.0.4"
+    cookie-parser "^1.4.5"
     dotenv "^4.0.0"
     jsonwebtoken "^8.5.1"
     kue "^0.11.6"
@@ -3089,6 +3090,14 @@ convert-source-map@^1.1.0, convert-source-map@^1.4.0, convert-source-map@^1.5.1:
   integrity sha512-eFu7XigvxdZ1ETfbgPBohgyQ/Z++C0eEhTor0qRwBw9unw+L0/6V8wkSuGgzdThkiS5lSpdptOQPD8Ak40a+7A==
   dependencies:
     safe-buffer "~5.1.1"
+
+cookie-parser@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/cookie-parser/-/cookie-parser-1.4.5.tgz#3e572d4b7c0c80f9c61daf604e4336831b5d1d49"
+  integrity sha512-f13bPUj/gG/5mDr+xLmSxxDsB9DQiTIfhJS/sqjrmfAWiAN+x2O4i/XguTL9yDZ+/IFDanJ+5x7hC4CXT9Tdzw==
+  dependencies:
+    cookie "0.4.0"
+    cookie-signature "1.0.6"
 
 cookie-signature@1.0.6:
   version "1.0.6"
