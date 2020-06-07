@@ -43,6 +43,14 @@ export class ApiGateway {
   public async init (): Promise<void> {
     const app = this.butterfly.app
     app.enable('trust proxy')
+    app.use((req, _res, next): void => {
+      const start = process.hrtime()
+      req['locals'] = {
+        startTime: start,
+        timingMark: {}
+      }
+      next()
+    })
     await this.loadModules()
     await this.registerMiddlewares()
   }
@@ -76,7 +84,6 @@ export class ApiGateway {
       this.registerProxyHandlers(config)
 
       for (let middleware of this.middlewares) {
-        middleware.setUserServiceClass(this.userServiceClass)
         middlewares.push(middleware.handleMiddelware())
       }
 
