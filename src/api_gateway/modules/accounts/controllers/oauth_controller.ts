@@ -44,7 +44,11 @@ export class OauthController extends ApiController {
       redirect_uri: req.body.redirect_uri
     }
 
-    const { data: { data: credential } } = await this.axios.post(url, data)
+    const { data: { data: credential } } = await this.axios.post(url, data, {
+      headers: {
+        'x-request-id': req['locals']['requestId']
+      }
+    })
 
     return new JsonResponse(credential)
   }
