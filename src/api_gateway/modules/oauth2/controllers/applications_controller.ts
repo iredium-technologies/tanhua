@@ -3,6 +3,7 @@ import { ApplicationService } from '../services/application'
 import { ApiController } from '@iredium/butterfly/lib/controllers'
 import { ApplicationPolicy } from '../policies/application'
 import { BaseResponse, ViewResponse, RedirectResponse } from '@iredium/butterfly/lib/routes'
+import { accountsUrl } from '~/src/api_gateway/helpers/url'
 
 export class ApplicationsController extends ApiController {
   public constructor () {
@@ -28,7 +29,7 @@ export class ApplicationsController extends ApiController {
   public async createAction (req): Promise<BaseResponse> {
     try {
       const application = await this.service.create(req.body)
-      return new RedirectResponse(`/oauth/applications/${application._id}/edit`)
+      return new RedirectResponse(accountsUrl(`/oauth/applications/${application._id}/edit`))
     } catch (error) {
       req.session['form'] = req.body
       req.session['error'] = error
@@ -53,9 +54,9 @@ export class ApplicationsController extends ApiController {
   public async deleteAction (req, application: ApplicationInterface): Promise<BaseResponse> {
     try {
       await this.service.delete(application)
-      return new RedirectResponse('/oauth/applications')
+      return new RedirectResponse(accountsUrl('/oauth/applications'))
     } catch (error) {
-      return new RedirectResponse('/oauth/applications')
+      return new RedirectResponse(accountsUrl('/oauth/applications'))
     }
   }
 

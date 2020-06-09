@@ -4,6 +4,7 @@ import { ApiController } from '@iredium/butterfly/lib/controllers'
 import { UserPolicy } from '../policies/user'
 import { BaseResponse, ViewResponse, RedirectResponse } from '@iredium/butterfly/lib/routes'
 import { JsonResponse } from '@iredium/butterfly/lib/routes/responses/json'
+import { accountsUrl } from '~/src/api_gateway/helpers/url'
 
 export class UsersController extends ApiController {
   protected service: UserService
@@ -25,7 +26,7 @@ export class UsersController extends ApiController {
   public async login (req): Promise<BaseResponse> {
     this.authorize('login')
     try {
-      const redirectTo = req.query.from || '/'
+      const redirectTo = req.query.from || accountsUrl()
       const user = await this.service.authenticate('password', {
         email: req.body.email,
         username: req.body.username,
@@ -51,7 +52,7 @@ export class UsersController extends ApiController {
       }
       const user = await this.service.create(req.body)
       req['session'].authenticatedUserId = user._id
-      return new RedirectResponse(req.query.from || '/')
+      return new RedirectResponse(req.query.from || accountsUrl())
     } catch (error) {
       return new ViewResponse('pages/register/index.pug', {
         from: req.query.from,
@@ -63,7 +64,7 @@ export class UsersController extends ApiController {
 
   public async loginView (req): Promise<BaseResponse> {
     this.authorize('login')
-    const redirectTo = req.query.from || '/'
+    const redirectTo = req.query.from || accountsUrl()
     if (req['session'].authenticatedUserId) {
       return new RedirectResponse(redirectTo)
     }
@@ -74,7 +75,7 @@ export class UsersController extends ApiController {
 
   public async registerView (req): Promise<BaseResponse> {
     this.authorize('register')
-    const redirectTo = req.query.from || '/'
+    const redirectTo = req.query.from || accountsUrl()
     if (req['session'].authenticatedUserId) {
       return new RedirectResponse(redirectTo)
     }

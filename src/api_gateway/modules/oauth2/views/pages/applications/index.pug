@@ -5,7 +5,7 @@ block content
     h1 Applications
 
   div
-    a(href='/oauth/applications/create') Create new application
+    a(href=accountsUrl('/oauth/applications/create')) Create new application
 
   table.responsive-table
     thead
@@ -26,9 +26,9 @@ block content
           td= app.redirect_uris
           td
             div
-              a(href=`/oauth/applications/${app._id}/edit`) edit
+              a(href=accountsUrl(`/oauth/applications/${app._id}/edit`)) edit
             div
-              form(id=`delete_form_${app._id}` method='POST' action=`/oauth/applications/${app._id}?_method=DELETE`)
+              form(id=`delete_form_${app._id}` method='POST' action=accountsUrl(`/oauth/applications/${app._id}?_method=DELETE`))
                 input(name='_method' type='hidden' value='DELETE')
                 a(href='javascript:{}' onclick=`document.getElementById('delete_form_${app._id}').submit(); return false;` type=submit) delete
 

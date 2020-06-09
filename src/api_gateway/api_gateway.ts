@@ -5,6 +5,7 @@ import { ApiGatewayConfig } from '~/src/api_gateway/types/api_gateway_config'
 import express from 'express'
 import { ApiConfig } from '~/src/api_gateway/types/api_config'
 import proxy = require('express-http-proxy')
+import { accountsUrl } from './helpers/url'
 
 export class ApiGateway {
   protected app: express.Application
@@ -43,12 +44,13 @@ export class ApiGateway {
   public async init (): Promise<void> {
     const app = this.butterfly.app
     app.enable('trust proxy')
-    app.use((req, _res, next): void => {
+    app.use((req, res, next): void => {
       const start = process.hrtime()
       req['locals'] = {
         startTime: start,
         timingMark: {}
       }
+      res.locals.accountsUrl = accountsUrl
       next()
     })
     await this.loadModules()

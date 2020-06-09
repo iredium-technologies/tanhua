@@ -4,7 +4,7 @@ block content
   .jumbotron
     h1= `${title}`
   .row
-    form.col.s6(method='POST' action=`/oauth/applications${body && body._id ? `/${body._id}` : ''}?_method=${method || 'POST'}${from ? `&from=${from}` : ''}`)
+    form.col.s6(method='POST' action=accountsUrl(`/oauth/applications${body && body._id ? `/${body._id}` : ''}?_method=${method || 'POST'}${from ? `&from=${from}` : ''}`))
       .row
         .input-field.col.s12
           input(name='_method' type='hidden' value=`${method || 'POST'}`)

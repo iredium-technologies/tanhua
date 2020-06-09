@@ -4,7 +4,7 @@ block content
   .jumbotron
     h1 Register
   .row
-    form.col.s6(method='post' action=`/users/register${from ? `?from=${from}` : ''}`)
+    form.col.s6(method='post' action=accountsUrl(`/users/register${from ? `?from=${from}` : ''}`))
       .row
         .input-field.col.s6
           input#first_name.validate(name='first_name' type='text' value=`${body ? body.first_name : ''}`)
