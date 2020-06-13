@@ -15,11 +15,11 @@ apis:
         - scope: user
           window: 10
           max: 100
-  - name: esport
+  - name: marketplace
     attributes:
       host: localhost:12001
       uris:
-        - /esport
+        - /marketplace
       https_only: false
       rate_limit:
         - scope: ip
