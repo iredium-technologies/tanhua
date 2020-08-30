@@ -5,9 +5,11 @@ import { RequestHandler } from 'express'
 export class VerifyAccessToken extends BaseMiddleware {
   public generate (): RequestHandler {
     return async function verifyAccessToken (req, res, next): Promise<void> {
-      const isOptionRequest = !!req.headers['access-control-request-method']
+      const isOptionRequest = !!req.get('access-control-request-method')
       if (!isOptionRequest) {
-        const verifier = new DatabaseAccessTokenVerifier(req.headers['authorization'])
+        const authorizationHeader: string = req.get('authorization')
+        console.log({ authorizationHeader })
+        const verifier = new DatabaseAccessTokenVerifier(authorizationHeader)
         const credential = await verifier.verifyToken()
         req['authenticatedUserId'] = credential.user_id
         req['clientId'] = credential.client_id
