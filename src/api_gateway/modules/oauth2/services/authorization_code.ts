@@ -24,6 +24,7 @@ export class AuthorizationCodeService extends BaseService {
     this.redirectUri = redirect_uri
     const token = this.generateToken()
     const expiresAt = this.getDateHoursFromNow(this.codeExpiresIn)
+    // @ts-ignore
     return this.Model.create({
       code: token,
       client_id,

@@ -32,8 +32,8 @@ describe('Credential Fields Test', (): void => {
     })
   })
 
-  it('should has field _id ', async (): Promise<void> => {
-    expect(credential._id).toBeDefined()
+  it('should has field id ', async (): Promise<void> => {
+    expect(credential.id).toBeDefined()
   })
 
   it('should has field token_type ', async (): Promise<void> => {
@@ -64,7 +64,7 @@ describe('Issue Credential Test', (): void => {
       client_secret: app2.client_secret,
       scope: 'public'
     })
-    expect(credential._id.toString() !== credential2._id.toString()).toBeTruthy()
+    expect(credential.id.toString() !== credential2.id.toString()).toBeTruthy()
   })
 
   it('should expires in 120 minutes', async (): Promise<void> => {

@@ -87,6 +87,7 @@ export class CredentialService extends BaseService {
   protected async createToken (): Promise<CredentialInterface> {
     const token = this.generateToken()
     const expiresAt = this.getDateHoursFromNow(this.tokenExpiresIn)
+    // @ts-ignore
     return this.Model.create({
       client_id: this.clientId,
       token_type: this.tokenType,
@@ -101,6 +102,7 @@ export class CredentialService extends BaseService {
     const token = this.generateToken()
     const refreshToken = this.generateRefreshToken()
     const expiresAt = this.getDateHoursFromNow(this.tokenExpiresIn)
+    // @ts-ignore
     return this.Model.create({
       user_id: this.authenticatedUserId,
       client_id: this.clientId,

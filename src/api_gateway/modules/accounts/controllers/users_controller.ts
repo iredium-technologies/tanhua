@@ -32,7 +32,7 @@ export class UsersController extends ApiController {
         username: req.body.username,
         password: req.body.password
       })
-      req['session'].authenticatedUserId = user._id
+      req['session'].authenticatedUserId = user.id
       req['locals'].user = user
       return new RedirectResponse(redirectTo)
     } catch (error) {
@@ -51,7 +51,7 @@ export class UsersController extends ApiController {
         throw new BaseError('Register Error', 'Password doesn\'t match')
       }
       const user = await this.service.create(req.body)
-      req['session'].authenticatedUserId = user._id
+      req['session'].authenticatedUserId = user.id
       return new RedirectResponse(req.query.from || accountsUrl())
     } catch (error) {
       return new ViewResponse('pages/register/index.pug', {

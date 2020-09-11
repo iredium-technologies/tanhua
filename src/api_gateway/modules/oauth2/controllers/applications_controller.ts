@@ -29,7 +29,7 @@ export class ApplicationsController extends ApiController {
   public async createAction (req): Promise<BaseResponse> {
     try {
       const application = await this.service.create(req.body)
-      return new RedirectResponse(accountsUrl(`/oauth/applications/${application._id}/edit`))
+      return new RedirectResponse(accountsUrl(`/oauth/applications/${application.id}/edit`))
     } catch (error) {
       req.session['form'] = req.body
       req.session['error'] = error

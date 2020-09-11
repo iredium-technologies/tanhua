@@ -10,7 +10,7 @@
   "license": "MIT",
   "main": "build/main.js",
   "scripts": {
-    "dev": "./node_modules/backpack-core/bin/backpack dev --nolazy",
+    "dev": "./node_modules/backpack-core/bin/backpack dev --nolazy --stack-trace-limit=1000",
     "build": "backpack build",
     "start": "node build/example.js",
     "precommit": "npm run lint",
@@ -33,7 +33,7 @@
     "eslint"
   ],
   "dependencies": {
-    "@iredium/butterfly": "^0.5.0",
+    "@iredium/butterfly": "^0.29.0",
     "@iredium/kafka-adapter": "^0.0.8",
     "axios": "^0.19.0",
     "connect-mongo": "^2.0.3",

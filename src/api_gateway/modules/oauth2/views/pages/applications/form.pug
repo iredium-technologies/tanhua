@@ -4,7 +4,7 @@ block content
   .jumbotron
     h1= `${title}`
   .row
-    form.col.s6(method='POST' action=accountsUrl(`/oauth/applications${body && body._id ? `/${body._id}` : ''}?_method=${method || 'POST'}${from ? `&from=${from}` : ''}`))
+    form.col.s6(method='POST' action=accountsUrl(`/oauth/applications${body && body.id ? `/${body.id}` : ''}?_method=${method || 'POST'}${from ? `&from=${from}` : ''}`))
       .row
         .input-field.col.s12
           input(name='_method' type='hidden' value=`${method || 'POST'}`)
@@ -12,7 +12,7 @@ block content
         .input-field.col.s12
           input#name.validate(name='name' type='text' value=`${body ? body.name : ''}`)
           label(for='name') Name
-      if body && body._id
+      if body && body.id
         .row
           .input-field.col.s12
             input#client_id.validate(disabled="disabled" type='text' value=`${body ? body.client_id : ''}`)

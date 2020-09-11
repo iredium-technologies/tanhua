@@ -16,8 +16,8 @@ describe('Credential Fields Test', (): void => {
     })
   })
 
-  it('should has field _id ', async (): Promise<void> => {
-    expect(application._id).toBeDefined()
+  it('should has field id ', async (): Promise<void> => {
+    expect(application.id).toBeDefined()
   })
 
   it('should has field name ', async (): Promise<void> => {

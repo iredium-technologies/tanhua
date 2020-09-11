@@ -40,7 +40,7 @@ export class ContextController extends ApiController {
     })
 
     if (!credential.length) throw new UnauthenticatedError()
-    if (!credential[0]['user_id'] || this.user._id.toString() !== credential[0]['user_id']) throw new UnauthorizedError()
+    if (!credential[0]['user_id'] || this.user.id.toString() !== credential[0]['user_id']) throw new UnauthorizedError()
 
     return new JsonResponse(req['locals']['user'])
   }
