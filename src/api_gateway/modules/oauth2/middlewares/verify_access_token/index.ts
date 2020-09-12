@@ -13,10 +13,12 @@ export class VerifyAccessToken extends BaseMiddleware {
         const verifier = new DatabaseAccessTokenVerifier(authorizationHeader)
         const credential = await verifier.verifyToken()
         const service = new UserService()
-        const user = await service.get(credential.user_id)
-        req['locals']['user'] = user
-        req['authenticatedUserId'] = credential.user_id
         req['clientId'] = credential.client_id
+        if (credential.user_id) {
+          const user = await service.get(credential.user_id)
+          req['locals']['user'] = user
+          req['authenticatedUserId'] = credential.user_id
+        }
       }
       next()
     }
