@@ -1,11 +1,11 @@
 apis:
   - name: accounts
     attributes:
-      host: localhost:3039
+      host: tanhua.development.iredium-docker.internal:3039
       uris:
         - /accounts
-      https_only: false
-      rate_limit:
+      httpsOnly: false
+      rateLimit:
         - scope: ip
           window: 86400 # 24 hours
           max: 100000
@@ -17,11 +17,11 @@ apis:
           max: 100
   - name: marketplace
     attributes:
-      host: localhost:12001
+      host: marketplace.development.iredium-docker.internal:12001
       uris:
         - /marketplace
-      https_only: false
-      rate_limit:
+      httpsOnly: false
+      rateLimit:
         - scope: ip
           window: 86400 # 24 hours
           max: 100000
