@@ -6,10 +6,11 @@ import fs = require('fs')
 const file = fs.readFileSync(resolve(process.cwd(), 'apis.yml'), 'utf8')
 
 export const apis = YAML.parse(file).apis.map((o): Api => {
-  const { uris, host, rateLimit = [], httpsOnly } = o.attributes
+  const { uris, host, rateLimit = [], httpsOnly, parseReqBody = false } = o.attributes
 
   const config = {
-    https: httpsOnly
+    https: httpsOnly,
+    parseReqBody
   }
 
   return {
